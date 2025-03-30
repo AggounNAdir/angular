@@ -1,0 +1,15 @@
+<nav *ngIf="isLoggedIn" class="custom-nav p-4 flex items-center justify-between">
+  <h1 class="text-white text-xl font-bold">Gestion de Stock</h1>
+  <ul class="flex gap-6 text-white">
+    <li><a routerLink="/home">🏠 Accueil</a></li>
+    <li><a routerLink="/produits">📦 Produits</a></li>
+    <li><a routerLink="/achats">🛒 Achats</a></li>
+    <li><a routerLink="/ventes">💰 Ventes</a></li>
+    <li><a routerLink="/clients">👤 Clients</a></li>
+    <li><a routerLink="/fournisseurs">🚚 Fournisseurs</a></li>
+    <li><a routerLink="/rapports">📊 Rapports</a></li>
+    <li><a routerLink="/parametres">⚙️ Paramètres</a></li>
+  </ul>
+  <button (click)="logout()" class="bg-red-500 text-white px-4 py-2 rounded-lg">🚪 Déconnexion</button>
+</nav>
+  

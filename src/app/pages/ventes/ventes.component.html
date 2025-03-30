@@ -1,0 +1,240 @@
+<div class="livraison-container">
+    <h2>Gestion des Livraisons</h2>
+  
+    <!-- Filtres et boutons -->
+    <div class="header-container">
+      <div class="filtres">
+        <input
+          type="text"
+          [(ngModel)]="filtreRecherche"
+          placeholder="Rechercher par client ou numero livraison"
+          aria-label="Rechercher par client ou numero livraison"
+          (input)="appliquerFiltres()"
+        />
+        <button (click)="appliquerFiltres()" class="btn-filtrer" aria-label="Filtrer">
+          Filtrer
+        </button>
+      </div>
+      <div class="buttons">
+        <button (click)="ouvrirModalAjout()" class="btn-ajouter-modal1">
+          Ajouter un livraison
+        </button>
+      </div>
+    </div>
+  
+    <!-- Liste des achats -->
+  
+    <div class="content-container">
+      <div class="livraison-table-container">
+      <table class="livraison-table">
+        <thead>
+          <tr>
+            <th>N° livr</th>
+            <th>Client</th>
+            <th>Date</th>
+            <th>Montant Total HT</th>
+            <th>Montant Total TTC</th>
+            <th>Actions</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let livraison of livraisonsFiltres; trackBy: trackByLivraisonId">
+            <td>{{ livraison.numBonLivraison }}</td>
+            <td>{{ livraison.client.nomClient }}</td>
+            <td>{{ livraison.dateLivraison | date: 'dd/MM/yyyy' }}</td>
+            <td>{{ livraison.totalHt | number: '1.2-2' }} DA</td>
+            <td>{{ livraison.totalTtc | number: '1.2-2' }} DA</td>
+            <td>
+              <button (click)="voirDetails(livraison.id)" class="btn-details" aria-label="Voir détails">
+                Détails
+                {{ livraison.id === selectedLivraisonId ? 'Masquer' : 'Détails' }}
+              </button>
+              <button (click)="supprimerLivraison(livraison.id)" class="btn-supprimer" aria-label="Supprimer">
+                Supprimer
+                
+              </button>
+              <button (click)=" imprimerLivraison(livraison.id);" class="btn-supprimer" aria-label="imprimer">
+              imprimer
+                
+              </button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    </div>
+  </div>
+  
+  <!-- Modal pour ajouter un achat -->
+  <div *ngIf="modalAjoutOuvert" class="modal">
+    <div class="modal-content">
+      <div class="titre-ajout-livraison">
+           <h3>Ajouter une livraison</h3>
+    </div>
+      <div class="modal-body">
+        <!-- Colonne de gauche : Formulaire de saisie -->
+        <div class="form-column">
+          <form (ngSubmit)="ajouterProduit()" class="livraison-form">
+            <div class="form-group full-width">
+            <label for="client">Client :</label>
+              <select id="client" [(ngModel)]="nouvelLivraison.client" name="client" required>
+                <option *ngFor="let client of clients" [ngValue]="client">
+                  {{ client.nomClient }}
+                </option>
+              </select>
+            </div>
+          
+            <div class="form-group">
+              <label for="numBonLivraison">N° Bon livraison:</label>
+              <input type="text" id="numBonLivraison" [(ngModel)]="numBonLivraison" name="numBonLivraison" required />
+            </div>
+          
+            <div class="form-group">
+              <label for="date">Date :</label>
+              <input type="date" id="date" [(ngModel)]="nouvelLivraison.dateLivraison" name="date" required />
+            </div>
+          
+            <div class="form-group">
+              <label for="produit">Produit :</label>
+              <select id="produit" [(ngModel)]="nouveauDetailLivraison.produit.id" name="produit" required (change)="mettreAJourPrixUnitaire()">
+                <option *ngFor="let produit of produits" [ngValue]="produit.id">
+                  {{ produit.nomProduit }}
+                </option>
+              </select>
+            </div>
+          
+            <div class="form-group">
+              <label for="quantite">Quantité en carton:</label>
+              <input type="number" id="quantite" [(ngModel)]="nouveauDetailLivraison.quantiteCarton" name="quantite" min="1" required />
+            </div>
+          
+            <div class="form-group full-width">
+               <!-- <label for="quantite1">Quantité en unité:</label>
+            <span *ngIf="nouveauDetailLivraison.produit">
+                {{ (+facteur || 1) * (+nouveauDetailLivraison.quantite || 0) | number: '1.2-2' }}
+              </span>-->
+              <label for="quantiteUnite">Quantité en unité:</label>
+              <input type="number" id="quantiteUnite" [(ngModel)]="quantiteuniteajouter" name="quantiteUnite" required />
+            </div>
+          
+            <div class="form-group">
+              <label for="prix">Prix Unitaire :</label>
+              <input id="prix" type="text" [value]="nouveauDetailLivraison.prixUnitaire | formatPrix" readonly />
+            </div>
+          
+            <div class="form-group full-width">
+              <label>Montant Total HT:</label>
+              <span>{{ (+nouveauDetailLivraison.quantiteCarton * facteur+quantiteuniteajouter) * +nouveauDetailLivraison.prixUnitaire | number: '1.2-2' }}</span>
+            </div>
+          
+            <div class="form-group full-width">
+              <label>Montant Total TTC:</label>
+              <span>{{ (+nouveauDetailLivraison.quantiteCarton * facteur+quantiteuniteajouter) * (+nouveauDetailLivraison.prixUnitaire)*(1+(+nouveauDetailLivraison.tva)/100) | number: '1.2-2' }}</span>
+            </div>
+           
+            <div class="cont">
+              <button type="button" (click)="ajouterProduit()" class="btn-ajout-produit">Ajouter le Produit</button>
+            </div> 
+          </form>
+         
+        </div>
+  
+        <!-- Colonne de droite : Tableau des produits ajoutés -->
+        <div class="table-column">
+  
+          <table class="produits-ajoutes-table">
+            <thead>
+              <tr>
+                <th>Designation</th>
+                <th>Unite</th>
+                <th>Qté/carton</th>
+                <th>Qté/piece</th>
+                <th>Prix/U</th>
+                <th>Montant HT</th>
+                <th>TVA</th>
+                <th>Montant TTC</th>
+                <th>Actions</th>
+              </tr>
+            </thead>
+            <tbody>
+              <tr *ngFor="let detail of nouvelLivraison.details; trackBy: trackByDetailId">
+                <td>{{ detail.produit.nomProduit }}</td>
+                <td>{{  detail.produit.facteurConversion}}</td>
+                <td>{{ detail.quantiteCarton  }}</td>
+                <td>{{ detail.quantiteUnite }}</td>
+                <td>{{ detail.prixUnitaire | number: '1.2-2' }}</td>
+                <td>{{ ((detail.quantiteCarton * detail.produit.facteurConversion) + quantiteuniteajouter) * detail.prixUnitaire | number: '1.2-2' }}</td>
+                <td>{{ detail.tva| number: '1.2-2' }}</td>
+                <td>{{ (((detail.quantiteCarton * detail.produit.facteurConversion) + quantiteuniteajouter) * detail.prixUnitaire) * (1 + detail.tva / 100) | number: '1.2-2' }}</td>
+                <td>
+                  <button
+                    (click)="supprimerProduitAjoute(detail)"
+                    class="btn-supprimer"
+                    aria-label="Supprimer"
+                  >
+                    Supprimer
+                  </button>
+                </td>
+              </tr>
+            </tbody>
+          </table>
+  
+          <!-- Bouton Valider pour enregistrer l'achat et ses détails -->
+           <div class="btn-container2">
+            <button (click)="validerLivraisons()" class="btn-valider">Valider livraison</button>
+            
+           </div>
+          
+          
+        </div>
+      </div>
+  
+      <!-- Bouton Fermer -->
+      <button (click)="fermerModalAjout()" class="btn-fermer" aria-label="Fermer">
+        Fermer
+      </button>
+    </div>
+  </div>
+  <!-- Modal pour afficher les détails d'un achat -->
+  <!-- Modal pour afficher les détails d'un achat -->
+  <div *ngIf="modalDetailsOuvert" class="modal modal-details"> <!-- Ajoutez la classe modal-details ici -->
+    <div class="modal-content">
+      <h3>Détails de la livraison {{ numBonLivraison }}</h3>
+      <table class="detail-livraison-table">
+        <thead>
+          
+          <tr>
+            <th>Id</th>
+            <th>Produit</th>
+            <th>Qte/carton</th>
+            <th>Qte/unite</th>
+            <th>Unité</th>
+            <th>Prix Unitaire</th>
+            <th>TVA</th>
+            <th>Montant HT</th>
+            <th>Montant TTC</th>
+            <th>Action</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let detail of detailsLivraison; let i = index">
+            <td>{{ detail.id }}</td>
+            <td>{{ detail.produit.nomProduit }}</td>
+            <td><input [(ngModel)]="detail.quantiteCarton" type="number" /></td>
+            <td><input [(ngModel)]="detail.quantiteUnite" type="number" /></td>
+
+            <td>{{ detail.unite }}</td>
+            <td>{{ detail.prixUnitaire| number: '1.2-2'}}</td>
+            <td>{{ detail.tva }} %</td>
+            <td>{{ detail.montantHt | number: '1.2-2'}}</td>
+            <td>{{ detail.montantTtc | number: '1.2-2' }}</td>
+            <td>
+              <button (click)="modifierDetail(detail)" class="btn-modifier">💾 Modifier</button>
+              <button (click)="supprimerDetail(detail.id)" class="btn-supprimer">🗑️ Supprimer</button>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+      <button (click)="fermerModalDetails()" class="btn-fermer">Fermer</button>
+    </div>
+  </div>

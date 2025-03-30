@@ -1,0 +1,100 @@
+<div class="dashboard-container">
+
+  <!-- Colonne principale (Stats, Graphiques, Actions, Alertes) -->
+  <div class="main-content">
+    
+    <div class="stock-container">
+      <h2>📦 Stock des Produits</h2>
+      <table>
+        <thead>
+          <tr>
+            <th>Produit</th>
+            <th>Unité</th>
+            <th>Quantité en Carton</th>
+            <th>Quantité en Unite</th>
+            <th>Quantité Min</th>
+            <th>Alerte</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let stoc of produits">
+            <td>{{ stoc.nomProduit }}</td>
+            <td>{{ stoc.facteurConversion }}</td>
+            <td>{{ (stoc.stockActuel / stoc.facteurConversion) | number: '1.0-0' }}</td>
+
+            <td>{{ stoc.stockActuel % stoc.facteurConversion }}</td>
+            <td>{{ stoc.stockMin }}</td>
+            <td>
+              <span [ngClass]="{'alerte': stoc.stockActuel / stoc.facteurConversion <= stoc.stockMin}">
+                {{ stoc.stockActuel / stoc.facteurConversion<= stoc.stockMin ? '⚠️ Alerte Stock' : '✅ Stock Suffisant' }}
+              </span>
+            </td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+    
+    
+    
+
+
+    <!-- Actions Rapides -->
+    <div class="quick-actions">
+      <button (click)="navigateTo('/produits')">➕ Ajouter un produit</button>
+      <button (click)="navigateTo('/achats')">📥 Nouvelle achat</button>
+      <button (click)="navigateTo('/ventes')">📤 Nouvelle vente</button>
+     
+    </div>
+
+  </div>
+
+  <!-- Section droite (Catégories & Paramètres) -->
+  <div class="side-section">
+    
+    <!-- Onglets -->
+    <div class="tabs">
+      <button (click)="setActiveTab('categories')" [class.active]="activeTab === 'categories'">📂 Catégories</button>
+      <button (click)="setActiveTab('parametres')" [class.active]="activeTab === 'parametres'">⚙️ Paramètres</button>
+    </div>
+
+    <!-- Contenu de l'onglet Catégories -->
+    <div *ngIf="activeTab === 'categories'">
+      <h3>📂 Ajout atégories de Produits :</h3>
+
+      <div class="category-form">
+        <input type="text" [(ngModel)]="categoryName" placeholder="Nom de la catégorie">
+        <textarea [(ngModel)]="categoryDescription" placeholder="Description de la catégorie"></textarea>
+        <h3>📂 Listes catégories de Produits :</h3>
+        <div class="category-buttons">
+          <button (click)="addCategory()">Ajouter</button>
+          <button (click)="updateCategory()">Modifier</button>
+          <button (click)="deleteCategory()">Supprimer</button>
+        </div>
+      </div>
+
+      <!-- Liste des catégories -->
+      <div class="category-list">
+        <div class="category-card" *ngFor="let cat of categories" (click)="selectCategory(cat)">
+          <p>{{ cat.name }}</p>
+        </div>
+      </div>
+    </div>
+
+    <!-- Contenu de l'onglet Paramètres -->
+    <div *ngIf="activeTab === 'parametres'">
+      <h3>⚙️ Paramètres</h3>
+      <label>Dossier de travail :</label>
+      <div class="folder-input">
+        <input type="text" [(ngModel)]="saveFolderPath" placeholder="Chemin du dossier">
+        <button (click)="selectFolder()">📁</button>
+      </div>
+      <div class="reset-container">
+        <button class="reset-btn" (click)="resetDatabase()">🗑️ Vider la base de données</button>
+        <p class="alert-message">⚠️ Attention : Ce bouton va effacer toutes les données !</p>
+      </div>
+    </div>
+    
+
+  </div>
+
+</div>

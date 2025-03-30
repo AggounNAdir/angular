@@ -1,0 +1,121 @@
+<div class="container">
+
+ <h2>Gestion des Produits</h2>
+    
+    <div class="button-container">
+        <button class="btn-ajouter" (click)="ouvrirFormulaire()">Ajouter un Produit</button>
+    </div>
+    <!-- Tableau des produits -->
+    <table class="table-produits">
+        <thead>
+            <tr>
+                <th>Code-barres</th>
+                <th>Nom</th>
+                <th>Catégorie</th>
+                <th>Fournisseur</th>
+                <th>Prix Achat</th>
+                <th>Stock</th>
+                <th>Actions</th>
+            </tr>
+        </thead>
+        <tbody>
+            <tr *ngFor="let produit of produits">
+                <td>{{ produit.codeBarre }}</td>
+                <td>{{ produit.nomProduit }}</td>
+                <td>{{ produit.categorie.name }}</td>
+                <td>{{ produit.fournisseur.nomFournisseur }}</td>
+                <td>{{ produit.prixAchat | number: '1.2-2' }} DA</td>
+                <td>{{ produit.stockActuel }}</td>
+                <td>
+                    <button class="btn-modifier" (click)="modifierProduit(produit)">Modifier</button>
+                    <button class="btn-supprimer" (click)="supprimerProduit(produit.id)">Supprimer</button>
+                </td>
+            </tr>
+        </tbody>
+    </table>
+  
+    <!-- Modal d'ajout/modification -->
+    <div *ngIf="afficherFormulaire" class="modal-overlay">
+        <div class="modal-content">
+            <span class="close" (click)="fermerFormulaire()">&times;</span>
+            <div  class="titre-ajout">
+              <h3>{{ modeEdition ? 'Modifier' : 'Ajouter' }} un Produit</h3>
+            </div>
+            <!-- Grille pour organiser les champs en 2 colonnes -->
+            <div class="form-grid">
+                <div class="form-group">
+                    <label>Fournisseur :</label>
+                    <select [(ngModel)]="produitForm.fournisseur.id">
+                        <option *ngFor="let four of fournisseurs" [value]="four.id">{{ four.nomFournisseur }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Code-barres :</label>
+                    <input type="text" [(ngModel)]="produitForm.codeBarre" (keydown.enter)="onCodeBarreSaisi($event)" #codeBarreInput autofocus />             
+                </div>
+               
+              
+                <div class="form-group">
+                    <label>Nom :</label>
+                    <input type="text" [(ngModel)]="produitForm.nomProduit" />
+                </div>
+                <div class="form-group">
+                    <label>Catégorie :</label>
+                    <select [(ngModel)]="produitForm.categorie.id">
+                        <option *ngFor="let cat of categories" [value]="cat.id">{{ cat.name }}</option>
+                    </select>
+                </div>
+                
+                <div class="form-group">
+                    <label>Prix Achat :</label>
+                    <input type="text" [(ngModel)]="produitForm.prixAchat"
+                           (blur)="onBlurChampNumerique('prixAchat', produitForm.prixAchat.toString())"
+                           (input)="limiterDecimales($event, 'prixAchat')" />
+                    <span *ngIf="prixAchatError" class="error">Valeur invalide</span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Unité de Mesure :</label>
+                    <select [(ngModel)]="produitForm.uniteMesure">
+                        <option *ngFor="let unite of unitesMesure" [value]="unite">{{ unite }}</option>
+                    </select>
+                </div>
+                <div class="form-group">
+                    <label>Facteur de Conversion :</label>
+                    <input type="number" [(ngModel)]="produitForm.facteurConversion" />
+                </div>
+                <div class="form-group">
+                    <label>Stock Actuel :</label>
+                    <input type="text" [(ngModel)]="produitForm.stockActuel"
+                           (blur)="onBlurChampNumerique('stockActuel', produitForm.stockActuel.toString())"
+                           (input)="limiterDecimales($event, 'stockActuel')" />
+                    <span *ngIf="stockActuelError" class="error">Valeur invalide</span>
+                </div>
+              
+                
+                <div class="form-group">
+                    <label>Taux TVA :</label>
+                    <input type="number" [(ngModel)]="produitForm.tauxTva" />
+                </div>
+             
+                
+                <div class="form-group">
+                    <label>Stock Min :</label>
+                    <input type="text" [(ngModel)]="produitForm.stockMin"
+                           (blur)="onBlurChampNumerique('stockMin', produitForm.stockMin.toString())"
+                           (input)="limiterDecimales($event, 'stockMin')" />
+                    <span *ngIf="stockMinError" class="error">Valeur invalide</span>
+                </div>
+                
+                <div class="form-group">
+                    <label>Description :</label>
+                    <textarea [(ngModel)]="produitForm.description"></textarea>
+                </div>
+  
+            <div class="button-group">
+                <button class="btn-enregistrer" (click)="enregistrerProduit()">{{ modeEdition ? 'Mettre à jour' : 'Ajouter' }}</button>
+                <button class="btn-annuler" (click)="fermerFormulaire()">Annuler</button>
+            </div>
+        </div>
+    </div>
+</div>

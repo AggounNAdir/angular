@@ -1,0 +1,282 @@
+html, body {
+  height: 100%;
+  margin: 0;
+  padding: 0;
+}
+.dashboard-container {
+  display: flex;
+  gap: 1rem;
+  height: 90vh;
+  .main-content {
+    flex: 3;
+    display: flex;
+    flex-direction: column;
+    gap: 1rem;
+  }
+
+  .stats {
+    display: grid;
+    grid-template-columns: repeat(2, 1fr);
+    gap: 1rem;
+  }
+
+  .charts,
+  .quick-actions,
+  .alerts,
+  .side-section {
+    background: #fff;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  }
+
+  .quick-actions {
+    display: flex;
+    position: fixed;
+    bottom: 0; 
+    gap: 10px;
+
+    button {
+      padding: 10px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      background: #007bff;
+      color: white;
+    }
+  }
+
+  .side-section {
+    flex: 1;
+    background: #f9f9f9;
+    max-width: 350px;
+  
+
+    .tabs {
+      display: flex;
+      gap: 5px;
+      margin-bottom: 10px;
+
+      button {
+        flex: 1;
+        padding: 10px;
+        border: none;
+        cursor: pointer;
+        background: #e0e0e0;
+
+        &.active {
+          background: green;
+          color: white;
+        }
+      }
+    }
+
+    .category-form,
+    .settings {
+      display: flex;
+      flex-direction: column;
+      gap: 10px;
+    }
+
+    .category-list {
+      display: grid;
+      gap: 5px;
+
+      .category-card {
+        padding: 8px;
+        background: gold;
+        color: black;
+        border-radius: 5px;
+        cursor: pointer;
+        text-align: center;
+      }
+    }
+  }
+}
+
+// TITRES
+h3 {
+  color: black;
+  margin-bottom: 10px;
+}
+
+// INPUTS ET TEXTAREAS
+input,
+textarea {
+  border: 2px solid black;
+  padding: 8px;
+  border-radius: 4px;
+  outline: none;
+
+  &:focus {
+    border-color: black;
+    box-shadow: 0 0 5px rgba(0, 0, 0, 0.3);
+  }
+}
+
+// CONTENEUR INPUT + ICON (CHEMIN DOSSIER)
+.folder-input {
+  display: flex;
+  width: 100%;
+  margin-top: 10px;
+  input {
+    flex: 1;
+    padding: 8px;
+    border: 2px solid black;
+    border-right: none;
+    border-radius: 4px 0 0 4px;
+    outline: none;
+  }
+
+  button {
+    width: 50px;
+    border: 2px solid black;
+    border-left: none;
+    border-radius: 0 4px 4px 0;
+    background-color: white;
+    cursor: pointer;
+  }
+}
+
+// BOUTONS CATÉGORIE
+.category-buttons {
+  display: flex;
+  justify-content: space-between;
+  gap: 1px;
+  //margin-top: 10px;
+  margin-bottom: 10px;
+
+  button {
+    flex: 1;
+    padding: 1px;
+    border: 2px solid black;
+    border-radius: 5px;
+    color: white;
+    font-weight: bold;
+    cursor: pointer;
+    transition: background-color 0.3s ease, color 0.3s ease;
+  }
+
+  button:nth-child(1) {
+    background-color: green;
+
+    &:hover {
+      background-color: darkgreen;
+    }
+  }
+
+  button:nth-child(2) {
+    background-color: orange;
+
+    &:hover {
+      background-color: darkorange;
+    }
+  }
+
+  button:nth-child(3) {
+    background-color: red;
+
+    &:hover {
+      background-color: darkred;
+    }
+  }
+}
+.stock-container {
+  max-width: 100%;
+  overflow-x: auto; /* Scroll horizontal si nécessaire */
+}
+
+table {
+  width: 100%;
+  border-collapse: collapse;
+}
+
+thead {
+  position: sticky;
+  top: 0;
+  color: white;
+  background-color: #001F3F; /* Garde l'en-tête visible */
+  z-index: 1;
+}
+
+tbody {
+  display: block;
+  max-height: 500px; /* Définit la hauteur max avant activation du scroll */
+  overflow-y: auto; /* Ajoute le scroll vertical si le contenu dépasse */
+  width: 100%;
+  color: #0a0124;
+  height: 500px;
+  background-color: rgb(229, 251, 249);
+}
+
+tr {
+  display: table;
+  width: 100%;
+  table-layout: fixed; /* Fixe la largeur des colonnes */
+  font-size: 18px;
+  
+}
+
+th, td {
+  padding: 10px;
+  text-align: center;
+  border: 1px solid #ddd;
+  /* Applique du vert à la 3ᵉ colonne (Quantité en Carton) */
+
+
+}
+td:nth-child(3){
+  color: rgb(5, 13, 159); /* Texte en vert */
+  font-weight: bold;
+}
+td:nth-child(5){
+  color: rgb(154, 24, 136); /* Texte en vert */
+  font-weight: bold;
+}
+td:nth-child(1){
+  color: rgb(9, 6, 9); /* Texte en vert */
+  
+}
+
+.alerte {
+  color: red;
+  font-weight: bold;
+}
+.reset-container {
+  display: flex;
+  flex-direction: column; /* Place les éléments en colonne */
+  align-items: center; /* Centre horizontalement */
+  margin-top: 20px;
+}
+
+.reset-btn {
+  background-color: #ff4d4d;
+  color: white;
+  border: none;
+  padding: 12px 20px;
+  font-size: 16px;
+  font-weight: bold;
+  cursor: pointer;
+  border-radius: 8px;
+  transition: all 0.3s ease-in-out;
+
+  &:hover {
+    background-color: #cc0000;
+    transform: scale(1.05);
+  }
+
+  &:active {
+    background-color: #990000;
+    transform: scale(0.95);
+  }
+}
+
+/* Style de l'alerte sous le bouton */
+.alert-message {
+  color: red; /* Texte en rouge */
+  font-weight: bold;
+  margin-top: 10px; /* Espace entre le bouton et le texte */
+  font-size: 14px;
+  text-align: center;
+}
+

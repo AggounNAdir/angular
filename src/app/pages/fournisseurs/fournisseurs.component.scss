@@ -1,0 +1,399 @@
+// Variables
+$primary-color: #007bff;
+$secondary-color: #6c757d;
+$success-color: #28a745;
+$danger-color: #dc3545;
+$light-color: #f8f9fa;
+$dark-color: #343a40;
+$border-radius: 4px;
+$padding: 10px;
+$margin: 10px;
+h2{
+  margin-bottom: 15px;
+  margin-left: 10px;
+}
+label {
+  //font-weight: bold; /* Mettre en gras */
+  margin-bottom: 5px; /* Espacement entre le label et l'input */
+  background-color: #6c757d;
+  padding: $padding;
+  color: #f8f9fa;
+}
+// Mixins
+@mixin button-style($bg-color, $text-color) {
+  background-color: $bg-color;
+  color: $text-color;
+  border: none;
+  border-radius: $border-radius;
+  padding: $padding;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &:hover {
+    background-color: darken($bg-color, 10%);
+  }
+
+  &:disabled {
+    background-color: lighten($bg-color, 20%);
+    cursor: not-allowed;
+  }
+}
+
+@mixin table-style {
+  width: 100%;
+  border-collapse: collapse;
+  margin: $margin 0;
+
+  th, td {
+    padding: $padding;
+    border: 1px solid $secondary-color;
+    text-align: left;
+  }
+
+  th {
+    background-color: $light-color;
+  }
+
+  tr:hover {
+    background-color: lighten($light-color, 5%);
+  }
+}
+
+// Styles
+.tabs {
+  display: flex;
+  margin-bottom: $margin;
+  margin-left: 10px;
+
+  button {
+    @include button-style($secondary-color, $light-color);
+    margin-right: $margin;
+
+    &.active {
+      @include button-style($primary-color, $light-color);
+    }
+  }
+}
+
+.fournisseur-form, .versement-form {
+  margin-bottom: $margin;
+
+ 
+
+    .form-row {
+      display: flex;
+      flex-wrap: wrap;
+      gap: $margin;
+      margin-left: 10px;
+      
+      .input-montant {
+        width: 250px !important; // Limite la largeur maximale
+        margin-left: 10px;
+      }
+  
+      .input-date {
+        max-width: 300px;
+        width: 250px;
+        margin-left: 10px;
+      }
+  
+      .input-select {
+        width: 200px;
+       
+        margin-left: 10px;
+      }
+   
+      // Largeurs personnalisées pour chaque champ
+      .input-nom {
+        width: 250px !important; // Limite la largeur maximale
+    
+      }
+  
+      .input-contact {
+        max-width: 300px;
+        width: 250px;
+        margin-left: 10px;
+      }
+  
+      .input-adresse {
+        width: 400px;
+        max-width: 500px;
+        margin-left: 10px;
+      }
+  
+      .input-telephone {
+        width: 100%;
+        max-width: 150px; // Plus étroit pour un numéro de téléphone
+        margin-left: 10px;
+      }
+  
+      .input-email {
+        width: 350px;
+        max-width: 400px;
+        margin-left: 10px;
+      }
+  
+      .input-site-web {
+        width: 100%;
+        max-width: 300px;
+       
+      }
+  
+      // Style commun pour tous les inputs
+      input, select {
+        padding: $padding;
+        border: 1px solid $secondary-color;
+        border-radius: $border-radius;
+      }
+  
+      .actif-label {
+        display: flex;
+        align-items: center;
+        gap: $margin;
+      }
+    }
+
+    .actif-label {
+      display: flex;
+      align-items: center;
+      gap: $margin;
+    }
+  }
+
+  .button-group {
+    display: flex;
+    gap: $margin;
+    margin-top:15px;
+    margin-bottom: 10px;
+    margin-left: 10px;
+    button {
+      @include button-style($primary-color, $light-color);
+
+      &:nth-child(2) {
+        @include button-style($success-color, $light-color);
+      }
+
+      &:nth-child(3) {
+        @include button-style($danger-color, $light-color);
+      }
+    }
+  }
+
+
+table {
+  @include table-style;
+   margin-top: 10px;
+   margin-left: 10px;
+   margin-right: 10px;
+   max-width: calc(100% - 20px); // S'adapte à la largeur du conteneur moins les marges
+
+   th, td {
+    padding: $padding; // Espacement interne des cellules
+    border: 1px solid $secondary-color; // Bordure des cellules
+    text-align: center; // Centre le texte horizontalement
+    vertical-align: middle; // Centre le contenu verticalement
+  }
+
+  th {
+    background-color: $light-color; // Couleur de fond pour l'en-tête
+    font-weight: bold; // Texte en gras pour l'en-tête
+  }
+
+  tr:hover {
+    background-color: darken($light-color, 5%); // Effet de survol
+  }
+  .button-container {
+    display: flex;
+    gap: $margin;
+    //justify-content: center; /* Centre horizontalement */
+    justify-content: space-around; /* Espace égal à gauche, au centre et à droite */
+
+
+    button {
+      @include button-style($secondary-color, $light-color);
+      padding: $padding / 2;
+    }
+  }
+
+}
+
+// Responsive Design
+@media (max-width: 768px) {
+  .fournisseur-form, .versement-form {
+    .form-row {
+      flex-direction: column;
+    }
+  }
+
+  .button-group {
+    flex-direction: column;
+  }
+}
+.solde-negatif {
+  color: red;
+  font-weight: bold;
+}
+.situation-financiere {
+  position: fixed;
+  top: 74px;
+  right: 20px;
+  background-color: #0b0c0d;
+  padding: 15px;
+  width: 700px;
+  border-radius: 8px;
+  box-shadow: 0 0 10px rgba(0, 0, 0, 0.1);
+  text-align: center;
+  z-index: 1000;
+}
+
+.grid-container {
+  display: grid;
+  grid-template-columns: repeat(3, 1fr); /* 3 colonnes égales */
+  gap: 15px;
+  text-align: center;
+}
+
+.grid-container div {
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+}
+
+h4 {
+  font-size: 14px;
+  font-weight: bold;
+  margin-bottom: 5px;
+  color: #f1f1f3;
+}
+
+p {
+  font-size: 16px;
+  font-weight: bold;
+  color: #f4f411;
+}
+.situation-container {
+  display: flex;
+  flex-direction: column;
+  align-items: flex-end; // Aligner à droite
+  margin-right: 20px;
+
+  .form-group {
+
+    display: flex;
+    gap: 10px; // Espacement entre les éléments
+    align-items: center;
+    .label-fournisseur {
+      font-weight: bold;
+      font-size: 16px;
+      color: #fdf8f8;
+      background-color: #001F3F;
+    }
+    
+    // Style du select
+    .select-fournisseur {
+      padding: 8px;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+      outline: none;
+      transition: border-color 0.3s;
+      
+      &:focus {
+        border-color: #007bff; // Changement de couleur au focus
+      }
+    }
+    
+    // Style du bouton
+    .button-fournisseur {
+      background-color: #007bff;
+      color: white;
+      border: none;
+      padding: 10px 15px;
+      border-radius: 5px;
+      cursor: pointer;
+      font-size: 16px;
+      display: flex;
+      align-items: center;
+      gap: 5px; // Espace entre l'icône et le texte
+      transition: background-color 0.3s;
+    
+      &:hover {
+        background-color: #0056b3;
+      }
+    
+      &:disabled {
+        background-color: #ccc;
+        cursor: not-allowed;
+      }
+  }
+
+  .alert {
+    margin-top: 10px;
+    align-self: flex-end; // Aligner à droite sous le bouton
+    text-align: center; // Centrer le texte
+    width: auto; // Ajuster la largeur au contenu
+    padding: 10px;
+  }
+}
+
+.right-align {
+  display: flex;
+  align-items: center;
+  gap: 10px; // Espacement entre les éléments (label, select, bouton)
+}
+}
+// Style du titre centré
+.title-situation {
+  text-align: center;
+  font-size: 24px;
+  font-weight: bold;
+  color: #333;
+  padding: 10px;
+  margin-bottom: 20px;
+  text-transform: uppercase;
+  letter-spacing: 1px;
+  background: linear-gradient(to right, #007bff, #0056b3);
+  color: white;
+  border-radius: 5px;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.2);
+}
+// Style général du tableau
+table {
+  width: 100%;
+  border-collapse: collapse;
+  margin-top: 20px;
+  background: white;
+  box-shadow: 2px 2px 10px rgba(0, 0, 0, 0.1);
+  border-radius: 5px;
+  overflow: hidden;
+}
+
+// Style de l'en-tête
+thead {
+  background-color: linear-gradient(to right, #007bff, #0056b3);
+  color: rgb(14, 13, 13);
+  text-transform: uppercase;
+  font-weight: bold;
+}
+
+// Style des cellules
+th, td {
+  padding: 12px;
+  text-align: center;
+  border-bottom: 1px solid #ddd;
+}
+
+// Alternance des couleurs pour les lignes
+tbody tr:nth-child(odd) {
+  background: #f9f9f9;
+}
+
+tbody tr:nth-child(even) {
+  background: #eef2ff;
+}
+
+// Style pour le solde négatif
+.solde-negatif {
+  color: red;
+  font-weight: bold;
+}

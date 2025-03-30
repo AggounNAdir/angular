@@ -1,0 +1,139 @@
+// 🌍 Importation des polices Google (facultatif)
+@import url('https://fonts.googleapis.com/css2?family=Poppins:wght@300;400;600&display=swap');
+
+.login-page {
+    display: flex;
+    flex-direction: column;
+    justify-content: center;
+    align-items: center;
+    height: 100vh;
+    background: linear-gradient(135deg, #3498db, #8e44ad);
+    font-family: 'Poppins', sans-serif;
+  
+    // ✅ Style du titre de l'application
+    .app-title {
+      font-size: 2rem;
+      font-weight: 600;
+      color: white;
+      margin-bottom: 20px;
+      text-shadow: 2px 2px 4px rgba(0, 0, 0, 0.2);
+    }
+  
+    // ✅ Conteneur avec background bleu cassé
+    .login-container {
+      background: #1e3a5f;  // Bleu cassé
+      padding: 2rem;
+      border-radius: 12px;
+      box-shadow: 0 4px 10px rgba(0, 0, 0, 0.3);
+      width: 100%;
+      max-width: 400px;
+      text-align: center;
+      color: white;  // Texte en blanc pour contraste
+  
+      h2 {
+        margin-bottom: 1rem;
+        font-size: 1.8rem;
+        color: #f1f1f1;
+      }
+  
+      .form-group {
+        display: flex;
+        flex-direction: column;
+        text-align: left;
+        margin-bottom: 1rem;
+  
+        label {
+          font-weight: 600;
+          margin-bottom: 5px;
+          color: #f1f1f1;
+        }
+  
+        input {
+          padding: 10px;
+          font-size: 1rem;
+          border: 1px solid #ccc;
+          border-radius: 6px;
+          background: #2c4a74;  // Légèrement plus clair pour les champs
+          color: white;
+  
+          &::placeholder {
+            color: #c7d0e3;
+          }
+  
+          &:focus {
+            border-color: #3498db;
+            outline: none;
+            box-shadow: 0 0 5px rgba(52, 152, 219, 0.5);
+          }
+        }
+  
+        .error-message {
+          color: #e74c3c;
+          font-size: 0.9rem;
+          margin-top: 5px;
+        }
+      }
+  
+      .remember-me {
+        display: flex;
+        align-items: center;
+        font-size: 0.9rem;
+  
+        input {
+          margin-right: 8px;
+        }
+      }
+  
+      .submit-button {
+        width: 100%;
+        padding: 12px;
+        font-size: 1rem;
+        font-weight: bold;
+        background: #3498db;
+        color: white;
+        border: none;
+        border-radius: 6px;
+        cursor: pointer;
+        transition: background 0.3s ease-in-out;
+  
+        &:hover {
+          background: #2980b9;
+        }
+  
+        &:disabled {
+          background: #bdc3c7;
+          cursor: not-allowed;
+        }
+      }
+  
+      .register-link {
+        margin-top: 10px;
+        font-size: 0.9rem;
+  
+        a {
+          color: #f1c40f;
+          text-decoration: none;
+          font-weight: bold;
+          transition: color 0.3s;
+  
+          &:hover {
+            color: #f39c12;
+            text-decoration: underline;
+          }
+        }
+      }
+    }
+  }
+  
+  // 📱 Responsivité
+  @media (max-width: 480px) {
+    .login-container {
+      padding: 1.5rem;
+      width: 90%;
+    }
+  
+    .app-title {
+      font-size: 1.8rem;
+    }
+  }
+  

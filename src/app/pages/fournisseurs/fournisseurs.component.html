@@ -1,0 +1,198 @@
+<div class="tabs">
+  <button [class.active]="activeTab === 'fournisseurs'" (click)="activeTab = 'fournisseurs'" class="tabfor">
+    📜 Fournisseurs
+  </button>
+  <button [class.active]="activeTab === 'versements'" (click)="activeTab = 'versements'" class="tabver">
+    💰 Versements & Situation
+  </button>
+  <button [class.active]="activeTab === 'situation'" (click)="activeTab = 'situation'" class="tabsit">
+    📊 Situation Fournisseur
+  </button>
+</div>
+
+<!-- Onglet Fournisseurs -->
+<div *ngIf="activeTab === 'fournisseurs'">
+  <h2>Gestion des Fournisseurs</h2>
+  <div class="fournisseur-form">
+    <div class="form-row">
+      <input type="text" class="input-nom" [(ngModel)]="fournisseur.nomFournisseur" placeholder="Nom du fournisseur">
+      <input type="text" class="input-contact" [(ngModel)]="fournisseur.contact" placeholder="Contact">
+      <input type="text" class="input-adresse" [(ngModel)]="fournisseur.adresse" placeholder="Adresse">
+      <input type="text" class="input-telephone" [(ngModel)]="fournisseur.telephone" placeholder="Téléphone">
+      <input type="email" class="input-email" [(ngModel)]="fournisseur.email" placeholder="Email">
+      <input type="text" class="input-site-web" [(ngModel)]="fournisseur.siteWeb" placeholder="Site Web">
+      <label class="actif-label">
+        <input type="checkbox" [(ngModel)]="fournisseur.actif"> Actif
+      </label>
+    </div>
+
+    <div class="button-group">
+      <button (click)="addFournisseur()">➕ Ajouter</button>
+      <button (click)="updateFournisseur()" [disabled]="!selectedFournisseurId">✏ Modifier</button>
+      <button (click)="deleteFournisseur()" [disabled]="!selectedFournisseurId">🗑 Supprimer</button>
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Nom</th>
+        <th>Contact</th>
+        <th>Adresse</th>
+        <th>Téléphone</th>
+        <th>Email</th>
+        <th>Site Web</th>
+        <th>Actif</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let fournisseur of fournisseurs" (click)="selectFournisseur(fournisseur)">
+        <td>{{ fournisseur.nomFournisseur }}</td>
+        <td>{{ fournisseur.contact }}</td>
+        <td>{{ fournisseur.adresse }}</td>
+        <td>{{ fournisseur.telephone }}</td>
+        <td>{{ fournisseur.email }}</td>
+        <td>{{ fournisseur.siteWeb }}</td>
+        <td>{{ fournisseur.actif ? '✅' : '❌' }}</td>
+        <td>
+          <div class="button-container">
+            <button (click)="selectFournisseur(fournisseur)">
+              <i class="fas fa-edit"></i>
+            </button>
+            <button (click)="deleteFournisseur()">
+              <i class="fas fa-trash"></i>
+            </button>
+          </div>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>
+
+<!-- Onglet Versements & Situation -->
+<div *ngIf="activeTab === 'versements'">
+  <h2>Gestion des Versements & Situation</h2>
+  <div class="versement-form">
+    <div class="form-row">
+      <div class="form-group">
+        <label for="fournisseur">Fournisseur :</label>
+        <select id="fournisseur" [(ngModel)]="versement.fournisseur.id" class="input-select" (change)="onSelectFournisseur()">
+          <option *ngFor="let fournisseur of fournisseurs" [ngValue]="fournisseur.id">
+            {{ fournisseur.nomFournisseur }}
+          </option>
+        </select>
+      </div>
+      <div class="form-group">
+        <label for="montant">Montant :</label>
+        <input type="text" id="montant" [(ngModel)]="versement.montant" placeholder="Montant" class="input-montant">
+      </div>
+      
+      <div class="form-group">
+        <label for="dateVersement">Date de Versement :</label>
+        <input type="date" id="dateVersement" [(ngModel)]="versement.dateVersement" class="input-date">
+      </div>
+      
+      <div class="form-group">
+        <label for="modeVersement">Mode de Versement :</label>
+        <select id="modeVersement" [(ngModel)]="versement.modeVersement" class="input-select">
+          <option value="espèces">Espèces</option>
+          <option value="chèque">Chèque</option>
+          <option value="virement">Virement</option>
+        </select>
+      </div>
+      
+    </div>
+
+    <div class="button-group">
+      <button (click)="addVersement()" [disabled]="!versement.fournisseur.id">💰 Enregistrer Versement</button>
+      <button (click)="modifierVersement(versement.id)" [disabled]="!versement.id">💰 Modifier Versement</button>
+
+    </div>
+  </div>
+
+  <h3>Historique des Versements</h3>
+  <table>
+    <thead>
+      <tr>
+        <th>Date</th>
+        <th>Montant</th>
+        <th>Mode de Paiement</th>
+        <th>Action</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let v of versements ; trackBy: trackById">
+        <td>{{ v.dateVersement}} DA</td>
+        <td>{{ v.montant| number: '1.2-2' }} DA</td>
+        <td>{{ v.modeVersement }}</td>
+        <td>
+          <button (click)="editVersement(v)" style="margin-right: 10px;">✏</button>
+
+          <button (click)="deleteVersement(v.id)">🗑</button>
+        </td>
+      </tr>
+    </tbody>
+  </table>
+  <div class="situation-financiere">
+    <div class="grid-container">
+      <div>
+        <h4>Total Achats TTC</h4>
+        <p>{{ totalAchatsTTC | number: '1.2-2' }} DA</p>
+      </div>
+      <div>
+        <h4>Total Paiements</h4>
+        <p>{{ totalPaiements| number: '1.2-2'  }} DA</p>
+      </div>
+      <div>
+        <h4>Solde Restant</h4>
+        <p>{{ solde | number: '1.2-2' }} DA</p>
+      </div>
+    </div>
+  </div>
+  
+  
+  
+</div>
+<!-- Onglet Situation Fournisseur -->
+<div *ngIf="activeTab === 'situation'">
+  <h2 class="title-situation">Situation Financière des fournisseurs</h2>
+  <div class="situation-container">
+    <div class="form-group right-align">
+      <label for="fournisseur-select" class="label-fournisseur">Choisir un fournisseur:</label>
+      <select id="fournisseur-select" class="select-fournisseur" [(ngModel)]="selectedFournisseurId" (change)="onFournisseurChange()">
+        <option *ngFor="let fourni of fournisseurs" [value]="fourni.id">{{ fourni.nomFournisseur }}</option>
+      </select>
+
+      <button class="button-fournisseur" (click)="imprimerSituationFournisseur()" [disabled]="!achats.length">
+        🖨️ Imprimer la situation
+      </button>
+    </div>
+
+    <!-- Message d'alerte sous le bouton -->
+    <div *ngIf="messageAlerte" class="alert alert-warning">
+      {{ messageAlerte }}
+    </div>
+  </div>
+
+  <table>
+    <thead>
+      <tr>
+        <th>Fournisseur</th>
+        <th>Total Achats TTC</th>
+        <th>Total Paiements</th>
+        <th>Solde Restant</th>
+      </tr>
+    </thead>
+    <tbody>
+      <tr *ngFor="let situation of  situationFournisseurs">
+        <td>{{ situation.fournisseur.nomFournisseur }}</td>
+        <td>{{ situation.totalAchatsTTC | number:'1.2-2'  }} DA</td>
+        <td>{{ situation.totalPaiements | number:'1.2-2' }} DA</td>
+        <td [ngClass]="{'solde-negatif': situation.solde < 0}">
+          {{ situation.solde | number:'1.2-2' }} DA
+        </td>
+      </tr>
+    </tbody>
+  </table>
+</div>

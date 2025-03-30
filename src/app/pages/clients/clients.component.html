@@ -1,0 +1,267 @@
+<div class="tabs">
+    <button [class.active]="activeTab === 'clients'" (click)="activeTab = 'clients'" class="tabfor">
+      📜 Clients
+    </button>
+    <button [class.active]="activeTab === 'versements'" (click)="activeTab = 'versements'" class="tabver">
+      💰 Versements
+    </button>
+    <button [class.active]="activeTab === 'situation'" (click)="activeTab = 'situation'" class="tabsit">
+      📊 Situation client
+    </button>
+    <button [class.active]="activeTab === 'prix-client'" (click)="activeTab = 'prix-client'" class="tabprix">
+      📊 client/prix
+    </button>
+  </div>
+  
+  <!-- Onglet Fournisseurs -->
+  <div *ngIf="activeTab === 'clients'">
+    <h2>Gestion des Clients</h2>
+    <div class="client-form">
+      <div class="form-row">
+        <input type="text" class="input-nom" [(ngModel)]="client.nomClient" placeholder="Nom du client">
+        <input type="email" class="input-email" [(ngModel)]="client.email" placeholder="Email">
+        <input type="text" class="input-telephone" [(ngModel)]="client.telephone" placeholder="Téléphone">
+        <input type="text" class="input-adresse" [(ngModel)]="client.adresse" placeholder="Adresse">
+        <input type="text" class="input-nis" [(ngModel)]="client.nis" placeholder="Nis">
+        <input type="text" class="input-nif" [(ngModel)]="client.nif" placeholder="Nif">
+        <input type="text" class="input-nrc" [(ngModel)]="client.nrc" placeholder="Nrc">
+        <label class="actif-label">
+          <input type="checkbox" [(ngModel)]="client.actif"> Actif
+        </label>
+      </div>
+  
+      <div class="button-group">
+        <button (click)="addClient()">➕ Ajouter</button>
+        <button (click)="updateClient()" [disabled]="!selectedClientId">✏ Modifier</button>
+        <button (click)="deleteClient()" [disabled]="!selectedClientId">🗑 Supprimer</button>
+      </div>
+    </div>
+  
+    <table>
+      <thead>
+        <tr>
+          <th>Nom</th>
+          <th>Email</th>
+          <th>Téléphone</th>
+          <th>Adresse</th>
+          <th>NIS</th>
+          <th>NIF</th>
+          <th>NRC</th>
+          <th>Actif</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let client of clients" (click)="selectClient(client)">
+          <td>{{ client.nomClient }}</td>
+          <td>{{ client.email }}</td>
+          <td>{{ client.telephone }}</td>
+          <td>{{ client.adresse }}</td>
+          <td>{{ client.nis }}</td>
+          <td>{{client.nif }}</td>
+          <td>{{client.nrc }}</td>
+          <td>{{ client.actif ? '✅' : '❌' }}</td>
+          <td>
+            <div class="button-container">
+              <button (click)="selectClient(client)">
+                <i class="fas fa-edit"></i>
+              </button>
+              <button (click)="deleteClient()">
+                <i class="fas fa-trash"></i>
+              </button>
+            </div>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+  
+  <!-- Onglet Versements & Situation -->
+  <div *ngIf="activeTab === 'versements'">
+    <h2>Gestion des Versements & Situation</h2>
+    <div class="versement-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="client">Client :</label>
+          <select id="client" [(ngModel)]="versement.client.id" class="input-select" (change)="onSelectClient()">
+            <option *ngFor="let client of clients" [ngValue]="client.id">
+              {{ client.nomClient }}
+            </option>
+          </select>
+        </div>
+        <div class="form-group">
+          <label for="montant">Montant :</label>
+          <input type="text" id="montant" [(ngModel)]="versement.montant" placeholder="Montant" class="input-montant">
+        </div>
+        
+        <div class="form-group">
+          <label for="dateVersement">Date de Versement :</label>
+          <input type="date" id="dateVersement" [(ngModel)]="versement.dateVersement" class="input-date">
+        </div>
+        
+        <div class="form-group">
+          <label for="modeVersement">Mode de Versement :</label>
+          <select id="modeVersement" [(ngModel)]="versement.modeVersement" class="input-select">
+            <option value="espèces">Espèces</option>
+            <option value="chèque">Chèque</option>
+            <option value="virement">Virement</option>
+          </select>
+        </div>
+        
+      </div>
+  
+      <div class="button-group">
+        <button (click)="addVersement()" [disabled]="!versement.client.id">💰 Enregistrer Versement</button>
+        <button (click)="modifierVersement(versement.id)" [disabled]="!versement.id">💰 Modifier Versement</button>
+  
+      </div>
+    </div>
+  
+    <h3>Historique des Versements</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Date</th>
+          <th>Montant</th>
+          <th>Mode de Paiement</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let v of versements ; trackBy: trackById">
+          <td>{{ v.dateVersement}} DA</td>
+          <td>{{ v.montant| number: '1.2-2' }} DA</td>
+          <td>{{ v.modeVersement }}</td>
+          <td>
+            <button (click)="editVersement(v)" style="margin-right: 10px;">✏</button>
+  
+            <button (click)="deleteVersement(v.id)">🗑</button>
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    <div class="situation-financiere">
+      <div class="grid-container">
+        <div>
+          <h4>Total Achats TTC</h4>
+          <p>{{ totalLivraisonsTTC | number: '1.2-2' }} DA</p>
+        </div>
+        <div>
+          <h4>Total Paiements</h4>
+          <p>{{ totalPaiements| number: '1.2-2'  }} DA</p>
+        </div>
+        <div>
+          <h4>Solde Restant</h4>
+          <p>{{ solde | number: '1.2-2' }} DA</p>
+        </div>
+      </div>
+    </div>
+    
+    
+    
+  </div>
+  <!-- Onglet Situation Fournisseur -->
+  <div *ngIf="activeTab === 'situation'">
+    <h2 class="title-situation">Situation Financière des Clients</h2>
+    <div class="situation-container">
+      <div class="form-group right-align">
+        <label for="client-select" class="label-client">Choisir un client :</label>
+        <select id="client-select" class="select-client" [(ngModel)]="selectedClientId" (change)="onClientChange()">
+          <option *ngFor="let clien of clients" [value]="clien.id">{{ clien.nomClient }}</option>
+        </select>
+  
+        <button class="button-client" (click)="imprimerSituationClient()" [disabled]="!livraisons.length">
+          🖨️ Imprimer la situation
+        </button>
+      </div>
+  
+      <!-- Message d'alerte sous le bouton -->
+      <div *ngIf="messageAlerte" class="alert alert-warning">
+        {{ messageAlerte }}
+      </div>
+    </div>
+    <table class="table-situation">
+      <thead>
+        <tr>
+          <th>Client</th>
+          <th>Total Achats TTC</th>
+          <th>Total Paiements</th>
+          <th>Solde Restant</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let situation of  situationClients">
+          <td>{{ situation.client.nomClient }}</td>
+          <td>{{ situation.totalLivraisonsTTC | number:'1.2-2'  }} DA</td>
+          <td>{{ situation.totalPaiements | number:'1.2-2' }} DA</td>
+          <td [ngClass]="{'solde-negatif': situation.solde < 0}">
+            {{ situation.solde | number:'1.2-2' }} DA
+          </td>
+        </tr>
+      </tbody>
+    </table>
+    
+      
+  </div>
+  <div *ngIf="activeTab === 'prix-client'">
+    <h2>Prix de Vente par Client</h2>
+  
+    <div class="prix-client-form">
+      <div class="form-row">
+        <div class="form-group">
+          <label for="client">Client :</label>
+          <select id="client" [(ngModel)]="prixVente.client.id" class="input-select">
+            <option *ngFor="let client of clients" [ngValue]="client.id">
+              {{ client.nomClient }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label for="produit">Produit :</label>
+          <select id="produit" [(ngModel)]="prixVente.produit.id" class="input-select">
+            <option *ngFor="let produit of produits" [ngValue]="produit.id">
+              {{ produit.nomProduit }}
+            </option>
+          </select>
+        </div>
+  
+        <div class="form-group">
+          <label for="prix">Prix de Vente :</label>
+          <input type="number" id="prix" [(ngModel)]="prixVente.prix" placeholder="Prix de vente" class="input-prix">
+        </div>
+      </div>
+  
+      <div class="button-group">
+        <button (click)="addPrixVente()">➕ Ajouter</button>
+        <button (click)="updatePrixVente()" [disabled]="!selectedPrixVenteId">✏ Modifier</button>
+        <button (click)="deletePrixVente(prixVente)" [disabled]="!selectedPrixVenteId">🗑 Supprimer</button>
+      </div>
+    </div>
+  
+    <h3>Liste des Prix de Vente</h3>
+    <table>
+      <thead>
+        <tr>
+          <th>Client</th>
+          <th>Produit</th>
+          <th>Prix de Vente</th>
+          <th>Action</th>
+        </tr>
+      </thead>
+      <tbody *ngIf="client && prixVentes.length > 0">
+        <tr *ngFor="let prix of prixVentes" (click)="selectPrixVente(prix)">
+          <td>{{ prix.client?.nomClient}}</td>
+          <td>{{ prix.produit?.nomProduit }}</td>
+          <td>{{ prix?.prix | number:'1.2-2' }} DA</td>
+          <td>
+            <button (click)="selectPrixVente(prix); $event.stopPropagation()">✏</button>
+            <button (click)="deletePrixVente(prix); $event.stopPropagation()">🗑</button>
+          </td>
+        </tr>
+      </tbody>
+      
+      
+    </table>
+  </div>
+  

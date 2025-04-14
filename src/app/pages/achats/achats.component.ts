@@ -292,6 +292,7 @@ filtrerProduits() {
     this.achatService.deleteAchat(id).subscribe({
       next: () => {
         this.chargerAchats();
+        
       },
       error: (error) => {
         console.error('Erreur lors de la suppression de l\'achat:', error);

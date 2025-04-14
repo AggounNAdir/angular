@@ -296,6 +296,7 @@ export class VentesComponent {
           this.livraisonService.deleteLivraison(id).subscribe({
             next: () => {
               this.chargerLivraisons();
+              
             },
             error: (error) => {
               console.error('Erreur lors de la suppression de l\'achat:', error);

@@ -29,6 +29,7 @@ interface DetailLivraison {
   styleUrl: './ventes.component.scss'
 })
 export class VentesComponent {
+  produitsFiltres: Produit[] = [];
   detailsLivraison: DetailLivraison[] = [];
     modalDetailsOuvert: boolean = false;
     facteur:number=0.00;
@@ -303,7 +304,15 @@ export class VentesComponent {
             },
           });
         }
-      
+        filtrerProduits() {
+          if (this.nouvelLivraison.client) {
+            this.produitsFiltres = this.produits.filter(
+              (produit) => produit.fournisseur.id === this.nouvelLivraison.client.id
+            );
+          } else {
+            this.produitsFiltres = [];
+          }
+        }
         ajouterProduit(): void {
           // Vérifier d'abord si le produit est déjà dans la liste
           const produitDejaExistant = this.nouvelLivraison.details.find(

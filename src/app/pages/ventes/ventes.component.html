@@ -77,7 +77,7 @@
           <form (ngSubmit)="ajouterProduit()" class="livraison-form">
             <div class="form-group full-width">
             <label for="client">Client :</label>
-              <select id="client" [(ngModel)]="nouvelLivraison.client" name="client" required>
+              <select id="client" [(ngModel)]="nouvelLivraison.client" name="client" required (change)="filtrerProduits()">
                 <option *ngFor="let client of clients" [ngValue]="client">
                   {{ client.nomClient }}
                 </option>

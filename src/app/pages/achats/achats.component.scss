@@ -209,6 +209,7 @@ $background-color1:  #001F3F;
     padding: 20px;
     border-radius: 8px;
     width: 95%;
+    overflow-y: auto;
   
     box-shadow: 0 4px 8px rgba(0, 0, 0, 0.2);
     position: relative;
@@ -216,15 +217,14 @@ $background-color1:  #001F3F;
 
     h3 {
       text-align: center;
-      margin-bottom: 15px;
+      margin-bottom: 0px;
       color: #35047d;
     }
 
     .modal-body {
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
-
+      
       .form-column {
        display: flex;
         flex-wrap: wrap;
@@ -234,7 +234,7 @@ $background-color1:  #001F3F;
         .achat-form1 {
           display: flex;
           flex-wrap: wrap;
-          gap: 20px;
+          gap: 0px 20px;
         
           .form-group {
             flex: 1;
@@ -278,7 +278,7 @@ $background-color1:  #001F3F;
           @extend .btn-primary;
           width: 100%;
           padding: 10px;
-
+          margin-bottom: 5px;
      
         }
         .cont {
@@ -306,7 +306,9 @@ $background-color1:  #001F3F;
       .table-column {
         flex: 1;
         min-width: 300px;
-
+        max-height: 300px; // Limite la hauteur visible
+        overflow-y: auto;
+        margin-top: 0;
         table {
           width: 100%;
           border-collapse: collapse;

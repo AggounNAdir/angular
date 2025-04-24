@@ -216,33 +216,35 @@ $background-color1:  #001F3F;
 
     h3 {
       text-align: center;
-      margin-bottom: 15px;
+      margin-bottom: 0px;
       color: #35047d;
     }
 
     .modal-body {
       display: flex;
       flex-wrap: wrap;
-      gap: 20px;
+      gap: 10px 20px;
 
       .form-column {
        display: flex;
         flex-wrap: wrap;
         min-width: 300px;
-
+        align-items: center;
         .livraison-form {
           display: flex;
           flex-wrap: wrap;
-          gap: 20px;
+          gap: 0px 20px;
         
           .form-group {
             flex: 1;
             min-width: 250px;
-            margin-bottom: 10px;
         
             label {
               font-weight: bold;
               display: block;
+              padding: 8px;
+              width: 100%;
+              font-size: 20px;
             }
         
             input,
@@ -251,6 +253,7 @@ $background-color1:  #001F3F;
               padding: 8px;
               border: 1px solid #ccc;
               border-radius: $border-radius;
+              font-size: 20px;
             }
           }
         }
@@ -259,6 +262,7 @@ $background-color1:  #001F3F;
           @extend .btn-primary;
           width: 100%;
           padding: 10px;
+          margin-bottom: 5px;
 
      
         }
@@ -287,7 +291,9 @@ $background-color1:  #001F3F;
       .table-column {
         flex: 1;
         min-width: 300px;
-
+        max-height: 300px; // Limite la hauteur visible
+        overflow-y: auto;
+        margin-top: 0;
         table {
           width: 100%;
           border-collapse: collapse;

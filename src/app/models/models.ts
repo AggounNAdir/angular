@@ -31,6 +31,14 @@ export interface Client {
     fournisseur: Fournisseur; 
     facteurConversion: number,
   }
+  export interface GainDTO{
+     produitId: number,
+     nomProduit: string,
+     fournisseurId: number,
+     nomFournisseur: string,
+     gain: number
+
+  }
   export interface ADDFournisseur {
     id?: number;
     nomFournisseur: string;

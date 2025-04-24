@@ -89,7 +89,7 @@ filtrerProduits() {
     this.produitsFiltres = [];
   }
 }
-  chargerAchats() {
+ chargerAchats() {
     this.achatService.getAchats().subscribe({
       next: (data) => {
         this.achats = data;

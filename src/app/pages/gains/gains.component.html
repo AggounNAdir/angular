@@ -1,0 +1,36 @@
+<div class="rapport-container">
+  <h2>Rapports de Gains</h2>
+
+  <form (ngSubmit)="filtrer()">
+    <label for="startDate">Date de début :</label>
+    <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" required>
+
+    <label for="endDate">Date de fin :</label>
+    <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" required>
+
+    <button type="submit">Filtrer</button>
+  </form>
+
+  <div *ngIf="gains && gains.length > 0">
+    <table>
+      <thead>
+        <tr>
+          <th>Produit</th>
+          <th>Fournisseur</th>
+          <th>Gain</th>
+        </tr>
+      </thead>
+      <tbody>
+        <tr *ngFor="let gain of gains">
+          <td>{{ gain.nomProduit }}</td>
+          <td>{{ gain.nomFournisseur }}</td>
+          <td>{{ gain.gain | number: '1.2-2' }} DA</td>
+        </tr>
+      </tbody>
+    </table>
+  </div>
+
+  <div *ngIf="gains && gains.length === 0">
+    <p>Aucun résultat pour cette période.</p>
+  </div>
+</div>

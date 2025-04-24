@@ -1,36 +1,52 @@
-<div class="rapport-container">
-  <h2>Rapports de Gains</h2>
+<div class="rapport-wrapper">
+  <!-- Bloc principal des rapports -->
+  <div class="rapport-container">
+    <h2>Rapports de Gains</h2>
 
-  <form (ngSubmit)="filtrer()">
-    <label for="startDate">Date de début :</label>
-    <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" required>
+    <form (ngSubmit)="filtrer()">
+      <label for="startDate">Date de début :</label>
+      <input type="date" id="startDate" [(ngModel)]="startDate" name="startDate" required>
 
-    <label for="endDate">Date de fin :</label>
-    <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" required>
+      <label for="endDate">Date de fin :</label>
+      <input type="date" id="endDate" [(ngModel)]="endDate" name="endDate" required>
 
-    <button type="submit">Filtrer</button>
-  </form>
+      <button type="submit">Filtrer</button>
+    </form>
 
-  <div *ngIf="gains && gains.length > 0">
-    <table>
-      <thead>
-        <tr>
-          <th>Produit</th>
-          <th>Fournisseur</th>
-          <th>Gain</th>
-        </tr>
-      </thead>
-      <tbody>
-        <tr *ngFor="let gain of gains">
-          <td>{{ gain.nomProduit }}</td>
-          <td>{{ gain.nomFournisseur }}</td>
-          <td>{{ gain.gain | number: '1.2-2' }} DA</td>
-        </tr>
-      </tbody>
-    </table>
+    <div *ngIf="gains && gains.length > 0">
+      <table>
+        <thead>
+          <tr>
+            <th>Produit</th>
+            <th>Fournisseur</th>
+            <th>Gain</th>
+          </tr>
+        </thead>
+        <tbody>
+          <tr *ngFor="let gain of gains">
+            <td>{{ gain.nomProduit }}</td>
+            <td>{{ gain.nomFournisseur }}</td>
+            <td>{{ gain.gain | number: '1.2-2' }} DA</td>
+          </tr>
+        </tbody>
+      </table>
+    </div>
+
+    <div *ngIf="gains && gains.length === 0">
+      <p>Aucun résultat pour cette période.</p>
+    </div>
   </div>
 
-  <div *ngIf="gains && gains.length === 0">
-    <p>Aucun résultat pour cette période.</p>
+  <!-- Bloc de sélection du fournisseur -->
+  <div class="fournisseur-box fixed-right">
+    <label for="fournisseurSelect">Sélectionner un fournisseur :</label>
+    <select id="fournisseurSelect" [(ngModel)]="fournisseurSelectionneId" name="fournisseurSelect" (change)="onFournisseurChange()">
+      <option [value]="null" disabled selected>-- Choisir un fournisseur --</option>
+      <option *ngFor="let f of fournisseurs" [value]="f.id">{{ f.nomFournisseur }}</option>
+    </select>
+
+    <div *ngIf="gainTotalFournisseur !== null" class="gain-total">
+      <strong>Gain total :</strong> {{ gainTotalFournisseur | number: '1.2-2' }} DA
+    </div>
   </div>
 </div>

@@ -3,6 +3,7 @@ import { GainDTO } from '../../models/models';
 import { GainService } from '../../services/gain.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
+import { FournisseurService } from '../../services/fournisseur.service';
 
 @Component({
   selector: 'app-gains',
@@ -11,15 +12,28 @@ import { FormsModule } from '@angular/forms';
   templateUrl: './gains.component.html',
   styleUrl: './gains.component.scss'
 })
-export class GainsComponent  {
+export class GainsComponent {
   
   gains: GainDTO[] = [];
   startDate!: string;
   endDate!: string;
+  
+  fournisseurs: any[] = [];
+fournisseurSelectionneId: number | null = null;
+gainTotalFournisseur: number | null = null;
 
-
-  constructor(private gainService: GainService) { }
-
+  constructor(private gainService: GainService,private fournisseurService :FournisseurService) { }
+ 
+  ngOnInit(): void {
+    this.loadFournisseurs();
+  }
+  onFournisseurChange() {
+    if (this.fournisseurSelectionneId) {
+      this.gainService.getGainTotalParFournisseur(this.fournisseurSelectionneId).subscribe(data => {
+        this.gainTotalFournisseur = data;
+      });
+    }
+  }
   
   filtrer() {
     if (this.startDate && this.endDate) {
@@ -28,7 +42,11 @@ export class GainsComponent  {
       });
     }
   }
-
+  loadFournisseurs(): void {
+    this.fournisseurService.loadingFournisseurs().subscribe(fournisseurs => {
+      this.fournisseurs = fournisseurs;
+    });
+  }
   // Méthode pour charger les gains
   loadGains(): void {
     this.gainService.getGainParProduitEtFournisseur(this.startDate, this.endDate)

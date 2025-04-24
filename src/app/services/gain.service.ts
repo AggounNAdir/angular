@@ -33,4 +33,7 @@ export class GainService {
 
     return this.http.get<GainDTO[]>(this.apiUrl, { params,headers: this.getHeaders()  });
   }
+  getGainTotalParFournisseur(fournisseurId: number): Observable<number> {
+    return this.http.get<number>(`http://localhost:8082/api/gains/fournisseur/${fournisseurId}`, { headers: this.getHeaders()  });
+  }
 }

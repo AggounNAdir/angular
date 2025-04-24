@@ -1,5 +1,32 @@
+.rapport-wrapper {
+    display: flex;
+    position: relative;
+    padding: 1rem;
+    gap: 2rem;
+  }
+  .fournisseur-box.fixed-right {
+    position: sticky;
+    top: 1rem;
+    align-self: flex-start;
+    background-color: #f9f9f9;
+    padding: 1rem;
+    border-radius: 8px;
+    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+    height: fit-content;
+    min-width: 250px;
+  }
+  
+  .gain-total {
+    margin-top: 1rem;
+    font-weight: bold;
+    color: #1a73e8;
+  }
 .rapport-container {
-    max-width: 800px;
+    flex: 1;
+  overflow-y: auto;
+  max-height: 80vh;
+   
+
     margin: 2rem auto;
     padding: 2rem;
     background: #f9f9f9;

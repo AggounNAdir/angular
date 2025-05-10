@@ -1,3 +1,78 @@
 .custom-nav {
     background-color: #001F3F;
-}
+    padding: 1rem 2rem; // Padding par défaut pour les écrans plus grands
+    display: flex;
+    justify-content: space-between;
+    align-items: center;
+  }
+  
+  .custom-nav h1 {
+    color: white;
+    font-size: 1.5rem;
+  }
+  
+  .custom-nav ul {
+    display: flex;
+    gap: 1rem;
+  }
+  
+  .custom-nav li {
+    list-style: none;
+  }
+  
+  .custom-nav a {
+    color: white;
+    text-decoration: none;
+    font-weight: bold;
+  }
+  
+  .custom-nav button {
+    background-color: #f44336;
+    color: white;
+    padding: 0.5rem 1rem;
+    border: none;
+    border-radius: 0.5rem;
+    cursor: pointer;
+  }
+  
+  // Media queries pour adapter la navbar aux petites résolutions
+  @media (max-width: 1366px) {
+    .custom-nav {
+      padding: 1rem; // Réduire le padding sur les écrans plus petits
+    }
+  
+    .custom-nav h1 {
+      font-size: 1.2rem; // Réduire la taille du texte pour les écrans plus petits
+    }
+  
+    .custom-nav ul {
+      gap: 0.5rem; // Réduire l'écart entre les éléments de la navbar
+    }
+  
+    .custom-nav button {
+      font-size: 0.875rem; // Réduire la taille du texte du bouton
+    }
+  
+    .custom-nav ul {
+      flex-wrap: wrap; // Permet de faire passer les éléments à la ligne si nécessaire
+      justify-content: center; // Centrer les éléments si plusieurs lignes
+    }
+  }
+  
+  @media (max-width: 768px) {
+    .custom-nav h1 {
+      font-size: 1rem; // Réduire encore plus la taille du texte
+    }
+  
+    .custom-nav ul {
+      flex-direction: column; // Les éléments s'empilent sur les petits écrans
+      gap: 1rem; // Plus d'espace entre les éléments
+      align-items: center; // Centrer les éléments
+    }
+  
+    .custom-nav button {
+      padding: 0.5rem 1rem;
+      font-size: 0.75rem; // Réduire la taille du texte du bouton encore plus
+    }
+  }
+  

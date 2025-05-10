@@ -424,3 +424,92 @@ tbody tr:nth-child(even) {
   color: red;
   font-weight: bold;
 }
+// Responsive Design pour petits écrans
+@media (max-width: 768px) {
+
+  // Formulaires : Empiler les éléments verticalement
+  .client-form, .versement-form {
+    .form-row {
+      flex-direction: column;  // Empile les éléments dans une colonne
+      gap: 10px;  // Réduit l'écart entre les champs
+    }
+
+    .input-montant,
+    .input-date,
+    .input-select,
+    .input-nom,
+    .input-adresse,
+    .input-telephone,
+    .input-email {
+      width: 100%;  // Les inputs prennent toute la largeur disponible
+      margin-left: 0;  // Enlever les marges gauche
+    }
+  }
+
+  // Groupes de boutons : aligner les boutons en colonne
+  .button-group {
+    flex-direction: column;  // Empile les boutons verticalement
+    align-items: stretch;  // Les boutons s'étendent pour remplir la largeur disponible
+    margin-left: 0;  // Réduit la marge gauche
+    margin-top: 20px;
+  }
+
+  // Table : Ajuster la largeur du tableau et des cellules
+  .table-sitution {
+    max-width: 100%;
+    overflow-x: auto;  // Permet de défiler horizontalement si le tableau est trop large
+  }
+
+  // Grille de mise en page : Passer à 1 colonne sur mobile
+  .grid-container {
+    grid-template-columns: 1fr;  // Une seule colonne
+    gap: 10px;  // Réduit l'écart entre les éléments
+  }
+
+  // Labels et entrées : Ajuster la taille des polices et les espacements
+  label {
+    font-size: 12px;  // Réduit la taille des labels sur mobile
+    margin-bottom: 5px;  // Réduit l'espace sous les labels
+  }
+
+  input, select {
+    font-size: 14px;  // Ajuste la taille de la police dans les inputs
+    padding: 8px;  // Réduit l'espacement interne des champs
+  }
+
+  .input-select {
+    width: 100%;  // Les selects prennent toute la largeur disponible
+  }
+
+  // Barres de titre et autres éléments fixes : ajuster la taille
+  .title-situation {
+    font-size: 20px;  // Taille du titre plus petite sur mobile
+    padding: 8px;
+    margin-bottom: 15px;
+  }
+
+  .situation-financiere {
+    width: 100%;  // Occupe toute la largeur sur mobile
+    position: relative;  // Retirer la position fixe pour mobile, si nécessaire
+    top: 0;
+    right: 0;
+    margin-right: 0;  // Enlever les marges sur les petits écrans
+  }
+
+  .form-group {
+    gap: 8px;  // Réduire l'espace entre les labels et les champs sur mobile
+    flex-wrap: wrap;  // Permet aux éléments de passer à la ligne sur les petits écrans
+  }
+
+  // Style du bouton client
+  .button-client {
+    font-size: 14px;  // Réduit la taille du texte du bouton
+    padding: 8px 12px;  // Réduit l'espacement interne du bouton
+  }
+
+  // Ajustement des alertes
+  .alert {
+    width: 100%;  // Les alertes prennent toute la largeur sur mobile
+    text-align: center;  // Centrer le texte des alertes
+  }
+}

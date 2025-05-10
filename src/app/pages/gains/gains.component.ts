@@ -1,9 +1,11 @@
 import { Component, OnInit } from '@angular/core';
-import { GainDTO } from '../../models/models';
+import { GainDTO, GainDTOc } from '../../models/models';
 import { GainService } from '../../services/gain.service';
 import { CommonModule } from '@angular/common';
 import { FormsModule } from '@angular/forms';
 import { FournisseurService } from '../../services/fournisseur.service';
+import { ClientService } from '../../services/client.service';
+
 
 @Component({
   selector: 'app-gains',
@@ -12,9 +14,15 @@ import { FournisseurService } from '../../services/fournisseur.service';
   templateUrl: './gains.component.html',
   styleUrl: './gains.component.scss'
 })
+
 export class GainsComponent {
-  
-  gains: GainDTO[] = [];
+  contributeurs: any[] = [];
+contributeurSelectionneId: string | number | null = null;
+gainTotalContributeur: number | null = null;
+clients: any[] = [];
+
+  gainsf: GainDTO[] = [];
+  gainsc: GainDTOc[] = [];
   startDate!: string;
   endDate!: string;
   
@@ -22,11 +30,30 @@ export class GainsComponent {
 fournisseurSelectionneId: number | null = null;
 gainTotalFournisseur: number | null = null;
 
-  constructor(private gainService: GainService,private fournisseurService :FournisseurService) { }
+  constructor(private clientService: ClientService,private gainService: GainService,private fournisseurService :FournisseurService) { }
  
   ngOnInit(): void {
     this.loadFournisseurs();
+    this.loadClients();
   }
+  loadClients(): void {
+    // Tu peux ajouter ici une méthode qui charge les clients depuis un service
+    this.clientService.getClients().subscribe(clients => {
+      this.clients = clients;
+      this.contributeurs = this.clients.filter(c => c.type === 'CONTRIBUTEUR');
+    });
+  }
+  onContributeurChange() {
+    if (!this.contributeurSelectionneId) {
+      this.gainTotalContributeur = null;
+      return;
+    }
+  
+    this.gainTotalContributeur = this.gainsc
+      .filter(g => g.clientId === this.contributeurSelectionneId)
+      .reduce((total, g) => total + g.gain, 0);
+  }
+  
   onFournisseurChange() {
     if (this.fournisseurSelectionneId) {
       this.gainService.getGainTotalParFournisseur(this.fournisseurSelectionneId).subscribe(data => {
@@ -38,7 +65,7 @@ gainTotalFournisseur: number | null = null;
   filtrer() {
     if (this.startDate && this.endDate) {
       this.gainService.getGainParProduitEtFournisseur(this.startDate, this.endDate).subscribe(data => {
-        this.gains = data;
+        this.gainsf = data;
       });
     }
   }
@@ -52,7 +79,7 @@ gainTotalFournisseur: number | null = null;
     this.gainService.getGainParProduitEtFournisseur(this.startDate, this.endDate)
       .subscribe(
         (data: GainDTO[]) => {
-          this.gains = data; // Assigner les données de la réponse à la variable `gains`
+          this.gainsf = data; // Assigner les données de la réponse à la variable `gains`
         },
         error => {
           console.error('Erreur lors du chargement des gains:', error);

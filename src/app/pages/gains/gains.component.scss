@@ -1,110 +1,145 @@
 .rapport-wrapper {
-    display: flex;
-    position: relative;
-    padding: 1rem;
-    gap: 2rem;
+  display: flex;
+  position: relative;
+  padding: 1rem;
+  gap: 2rem;
+  flex-wrap: wrap;  // Permet aux éléments de se placer sur plusieurs lignes
+
+  @media (max-width: 768px) {
+    flex-direction: column; // Sur les petits écrans, le rapport passe en mode colonne
+    gap: 1rem;
   }
-  .fournisseur-box.fixed-right {
-    position: sticky;
-    top: 1rem;
-    align-self: flex-start;
-    background-color: #f9f9f9;
-    padding: 1rem;
-    border-radius: 8px;
-    box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
-    height: fit-content;
-    min-width: 250px;
+}
+
+.fournisseur-box.fixed-right {
+  position: sticky;
+  top: 1rem;
+  align-self: flex-start;
+  background-color: #f9f9f9;
+  padding: 1rem;
+  border-radius: 8px;
+  box-shadow: 0 2px 4px rgba(0, 0, 0, 0.1);
+  height: fit-content;
+  min-width: 250px;
+
+  @media (max-width: 768px) {
+    position: static;  // Désactive le positionnement sticky sur les petits écrans
+    width: 100%;  // Prend toute la largeur
+    margin-bottom: 1rem;
   }
+}
+
+.gain-total {
+  margin-top: 1rem;
+  font-weight: bold;
+  color: #1a73e8;
   
-  .gain-total {
-    margin-top: 1rem;
-    font-weight: bold;
-    color: #1a73e8;
+  @media (max-width: 768px) {
+    font-size: 1.2rem;  // Réduit la taille de la police pour les petits écrans
   }
+}
+
 .rapport-container {
-    flex: 1;
+  flex: 1;
   overflow-y: auto;
   max-height: 80vh;
-   
+  margin: 2rem auto;
+  padding: 2rem;
+  background: #f9f9f9;
+  border-radius: 12px;
+  box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
 
-    margin: 2rem auto;
-    padding: 2rem;
-    background: #f9f9f9;
-    border-radius: 12px;
-    box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
-  
-    h2 {
-      text-align: center;
-      margin-bottom: 1.5rem;
-      color: #333;
-      font-size: 1.8rem;
-    }
-  
-    form {
-      display: flex;
-      flex-wrap: wrap;
-      gap: 1rem;
-      justify-content: center;
-      margin-bottom: 2rem;
-  
-      label {
-        font-weight: bold;
-        color: #444;
-      }
-  
-      input[type="date"] {
-        padding: 0.5rem;
-        border: 1px solid #ccc;
-        border-radius: 6px;
-        font-size: 1rem;
-      }
-  
-      button {
-        padding: 0.6rem 1.2rem;
-        background-color: #4CAF50;
-        border: none;
-        border-radius: 6px;
-        color: white;
-        font-weight: bold;
-        cursor: pointer;
-        transition: background-color 0.3s ease;
-  
-        &:hover {
-          background-color: #45a049;
-        }
-      }
-    }
-  
-    table {
-      width: 100%;
-      border-collapse: collapse;
-      margin-top: 1rem;
-  
-      th, td {
-        padding: 0.75rem 1rem;
-        border: 1px solid #ddd;
-        text-align: left;
-      }
-  
-      thead {
-        background-color: #4CAF50;
-        color: white;
-  
-        th {
-          font-weight: bold;
-        }
-      }
-  
-      tbody tr:nth-child(even) {
-        background-color: #f2f2f2;
-      }
-    }
-  
-    p {
-      text-align: center;
-      font-style: italic;
-      color: #777;
-      margin-top: 1.5rem;
+  h2 {
+    text-align: center;
+    margin-bottom: 1.5rem;
+    color: #333;
+    font-size: 1.8rem;
+
+    @media (max-width: 768px) {
+      font-size: 1.5rem;  // Réduit la taille de la police pour les petits écrans
     }
   }
-  
+
+  form {
+    display: flex;
+    flex-wrap: wrap;
+    gap: 1rem;
+    justify-content: center;
+    margin-bottom: 2rem;
+
+    label {
+      font-weight: bold;
+      color: #444;
+    }
+
+    input[type="date"] {
+      padding: 0.5rem;
+      border: 1px solid #ccc;
+      border-radius: 6px;
+      font-size: 1rem;
+
+      @media (max-width: 768px) {
+        font-size: 0.9rem;  // Ajuste la taille des champs sur les petits écrans
+      }
+    }
+
+    button {
+      padding: 0.6rem 1.2rem;
+      background-color: #4CAF50;
+      border: none;
+      border-radius: 6px;
+      color: white;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+
+      &:hover {
+        background-color: #45a049;
+      }
+
+      @media (max-width: 768px) {
+        width: 100%;  // Le bouton prend toute la largeur sur les petits écrans
+      }
+    }
+  }
+
+  table {
+    width: 100%;
+    border-collapse: collapse;
+    margin-top: 1rem;
+
+    th, td {
+      padding: 0.75rem 1rem;
+      border: 1px solid #ddd;
+      text-align: left;
+    }
+
+    thead {
+      background-color: #4CAF50;
+      color: white;
+
+      th {
+        font-weight: bold;
+      }
+    }
+
+    tbody tr:nth-child(even) {
+      background-color: #f2f2f2;
+    }
+
+    @media (max-width: 768px) {
+      font-size: 0.9rem;  // Réduit la taille de la police du tableau sur les petits écrans
+    }
+  }
+
+  p {
+    text-align: center;
+    font-style: italic;
+    color: #777;
+    margin-top: 1.5rem;
+
+    @media (max-width: 768px) {
+      font-size: 0.9rem;  // Réduit la taille de la police du texte en bas
+    }
+  }
+}

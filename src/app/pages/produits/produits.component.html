@@ -9,8 +9,9 @@
     <table class="table-produits">
         <thead>
             <tr>
-                <th>Code-barres</th>
+                
                 <th>Nom</th>
+                <th>Marque</th>
                 <th>Catégorie</th>
                 <th>Fournisseur</th>
                 <th>Prix Achat</th>
@@ -20,8 +21,8 @@
         </thead>
         <tbody>
             <tr *ngFor="let produit of produits">
-                <td>{{ produit.codeBarre }}</td>
                 <td>{{ produit.nomProduit }}</td>
+                <td>{{ produit.marque }}</td>
                 <td>{{ produit.categorie.name }}</td>
                 <td>{{ produit.fournisseur.nomFournisseur }}</td>
                 <td>{{ produit.prixAchat | number: '1.2-2' }} DA</td>
@@ -45,16 +46,16 @@
             <div class="form-grid">
                 <div class="form-group">
                     <label>Fournisseur :</label>
-                    <select [(ngModel)]="produitForm.fournisseur.id">
+                    <select [(ngModel)]="produitForm.fournisseur.id" (ngModelChange)="mettreAJourMarque()">
                         <option *ngFor="let four of fournisseurs" [value]="four.id">{{ four.nomFournisseur }}</option>
                     </select>
                 </div>
                 <div class="form-group">
-                    <label>Code-barres :</label>
-                    <input type="text" [(ngModel)]="produitForm.codeBarre" (keydown.enter)="onCodeBarreSaisi($event)" #codeBarreInput autofocus />             
+                    <label>Marque :</label>
+                    <input type="text" [(ngModel)]="produitForm.marque" [value]="produitForm.fournisseur.nomFournisseur" readonly />
                 </div>
+           
                
-              
                 <div class="form-group">
                     <label>Nom :</label>
                     <input type="text" [(ngModel)]="produitForm.nomProduit" />

@@ -1,17 +1,25 @@
+.custom-nav {
+  background-color: #001F3F;
+}
+
 html, body {
   height: 100%;
   margin: 0;
   padding: 0;
 }
+
 .dashboard-container {
   display: flex;
   gap: 1rem;
   height: 90vh;
+  flex-wrap: wrap; /* Permet aux éléments de s'ajuster en fonction de l'écran */
+
   .main-content {
     flex: 3;
     display: flex;
     flex-direction: column;
     gap: 1rem;
+    width: 100%; /* Prend toute la largeur sur petits écrans */
   }
 
   .stats {
@@ -20,10 +28,7 @@ html, body {
     gap: 1rem;
   }
 
-  .charts,
-  .quick-actions,
-  .alerts,
-  .side-section {
+  .charts, .quick-actions, .alerts, .side-section {
     background: #fff;
     padding: 1rem;
     border-radius: 8px;
@@ -33,8 +38,9 @@ html, body {
   .quick-actions {
     display: flex;
     position: fixed;
-    bottom: 0; 
+    bottom: 0;
     gap: 10px;
+    flex-wrap: wrap; /* Permet aux boutons de se réorganiser sur petits écrans */
 
     button {
       padding: 10px;
@@ -50,7 +56,6 @@ html, body {
     flex: 1;
     background: #f9f9f9;
     max-width: 350px;
-  
 
     .tabs {
       display: flex;
@@ -71,8 +76,7 @@ html, body {
       }
     }
 
-    .category-form,
-    .settings {
+    .category-form, .settings {
       display: flex;
       flex-direction: column;
       gap: 10px;
@@ -94,15 +98,12 @@ html, body {
   }
 }
 
-// TITRES
 h3 {
   color: black;
   margin-bottom: 10px;
 }
 
-// INPUTS ET TEXTAREAS
-input,
-textarea {
+input, textarea {
   border: 2px solid black;
   padding: 8px;
   border-radius: 4px;
@@ -114,11 +115,11 @@ textarea {
   }
 }
 
-// CONTENEUR INPUT + ICON (CHEMIN DOSSIER)
 .folder-input {
   display: flex;
   width: 100%;
   margin-top: 10px;
+
   input {
     flex: 1;
     padding: 8px;
@@ -138,12 +139,10 @@ textarea {
   }
 }
 
-// BOUTONS CATÉGORIE
 .category-buttons {
   display: flex;
   justify-content: space-between;
   gap: 1px;
-  //margin-top: 10px;
   margin-bottom: 10px;
 
   button {
@@ -181,6 +180,7 @@ textarea {
     }
   }
 }
+
 .stock-container {
   max-width: 100%;
   overflow-x: auto; /* Scroll horizontal si nécessaire */
@@ -195,14 +195,14 @@ thead {
   position: sticky;
   top: 0;
   color: white;
-  background-color: #001F3F; /* Garde l'en-tête visible */
+  background-color: #001F3F;
   z-index: 1;
 }
 
 tbody {
   display: block;
-  max-height: 500px; /* Définit la hauteur max avant activation du scroll */
-  overflow-y: auto; /* Ajoute le scroll vertical si le contenu dépasse */
+  max-height: 500px;
+  overflow-y: auto;
   width: 100%;
   color: #0a0124;
   height: 500px;
@@ -212,40 +212,39 @@ tbody {
 tr {
   display: table;
   width: 100%;
-  table-layout: fixed; /* Fixe la largeur des colonnes */
+  table-layout: fixed;
   font-size: 18px;
-  
 }
 
 th, td {
   padding: 10px;
   text-align: center;
   border: 1px solid #ddd;
-  /* Applique du vert à la 3ᵉ colonne (Quantité en Carton) */
-
-
 }
-td:nth-child(3){
-  color: rgb(5, 13, 159); /* Texte en vert */
+
+td:nth-child(3) {
+  color: rgb(5, 13, 159);
   font-weight: bold;
 }
-td:nth-child(5){
-  color: rgb(154, 24, 136); /* Texte en vert */
+
+td:nth-child(5) {
+  color: rgb(154, 24, 136);
   font-weight: bold;
 }
-td:nth-child(1){
-  color: rgb(9, 6, 9); /* Texte en vert */
-  
+
+td:nth-child(1) {
+  color: rgb(9, 6, 9);
 }
 
 .alerte {
   color: red;
   font-weight: bold;
 }
+
 .reset-container {
   display: flex;
-  flex-direction: column; /* Place les éléments en colonne */
-  align-items: center; /* Centre horizontalement */
+  flex-direction: column;
+  align-items: center;
   margin-top: 20px;
 }
 
@@ -271,12 +270,33 @@ td:nth-child(1){
   }
 }
 
-/* Style de l'alerte sous le bouton */
 .alert-message {
-  color: red; /* Texte en rouge */
+  color: red;
   font-weight: bold;
-  margin-top: 10px; /* Espace entre le bouton et le texte */
+  margin-top: 10px;
   font-size: 14px;
   text-align: center;
 }
 
+/* Adaptation pour les petits écrans */
+@media (max-width: 768px) {
+  .dashboard-container {
+    flex-direction: column; /* Les éléments s'empilent verticalement */
+    height: auto; /* Permet d'ajuster la hauteur */
+  }
+
+  .side-section {
+    max-width: 100%; /* La section latérale prend toute la largeur */
+  }
+
+  .category-buttons {
+    flex-direction: column; /* Les boutons se placent en colonne sur petits écrans */
+    gap: 10px;
+  }
+
+  .quick-actions {
+    position: relative; /* Les boutons flottants passent à la position relative pour éviter qu'ils ne se chevauchent */
+    bottom: unset; /* Supprime la position fixe */
+    flex-direction: column; /* Les boutons se placent en colonne */
+  }
+}

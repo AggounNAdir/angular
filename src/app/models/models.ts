@@ -20,7 +20,7 @@ export interface Client {
     id?: number; 
     nomProduit: string; 
     description?: string; 
-    codeBarre: string; 
+
     prixAchat: number; 
 
     stockActuel: number; 
@@ -30,6 +30,7 @@ export interface Client {
     categorie: Categorie; 
     fournisseur: Fournisseur; 
     facteurConversion: number,
+    marque:string,
   }
   export interface GainDTO{
      produitId: number,
@@ -39,6 +40,15 @@ export interface Client {
      gain: number
 
   }
+  export interface GainDTOc{
+    produitId: number,
+    nomProduit: string,
+    clientId: number,
+    nomCclient: string,
+    typeClient:string,
+    gain: number
+
+ }
   export interface ADDFournisseur {
     id?: number;
     nomFournisseur: string;
@@ -51,6 +61,7 @@ export interface Client {
   }
   export interface ADDClient {
     id: number;
+    typeClient: string;
     nomClient: string;
     email?: string;
     telephone?: string;

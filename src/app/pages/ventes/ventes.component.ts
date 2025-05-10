@@ -111,7 +111,7 @@ export class VentesComponent {
             this.clients = data;
           },
           error: (error) => {
-            console.error('Erreur lors du chargement des fournisseurs:', error);
+            console.error('Erreur lors du chargement des clients:', error);
           },
         });
       }

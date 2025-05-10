@@ -55,6 +55,7 @@ export class ClientsComponent {
   clients: any[] = [];
   client: ADDClient = { 
     id:0,
+    typeClient:'',
     nomClient: '', 
     email: '', 
     telephone: '', 
@@ -410,6 +411,7 @@ export class ClientsComponent {
   resetForm(): void {
     this.client = { 
       id:0,
+      typeClient:'',
       nomClient: '', 
       email: '', 
       telephone: '', 

@@ -18,6 +18,14 @@
     <h2>Gestion des Clients</h2>
     <div class="client-form">
       <div class="form-row">
+        <div class="form-group">
+          <label for="typeClient">Type :</label>
+          <select id="typeClient" [(ngModel)]="client.typeClient" class="input-select">
+            <option value="CONVOYEUR">CONVOYEUR</option>
+            <option value="CONTRIBUTEUR">CONTRIBUTEUR</option>
+          </select>
+        </div>
+        
         <input type="text" class="input-nom" [(ngModel)]="client.nomClient" placeholder="Nom du client">
         <input type="email" class="input-email" [(ngModel)]="client.email" placeholder="Email">
         <input type="text" class="input-telephone" [(ngModel)]="client.telephone" placeholder="Téléphone">
@@ -40,6 +48,7 @@
     <table>
       <thead>
         <tr>
+          <th>type</th>
           <th>Nom</th>
           <th>Email</th>
           <th>Téléphone</th>
@@ -53,6 +62,7 @@
       </thead>
       <tbody>
         <tr *ngFor="let client of clients" (click)="selectClient(client)">
+          <td>{{ client.typeClient }}</td>
           <td>{{ client.nomClient }}</td>
           <td>{{ client.email }}</td>
           <td>{{ client.telephone }}</td>

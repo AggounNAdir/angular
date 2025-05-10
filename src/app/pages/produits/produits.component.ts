@@ -48,7 +48,7 @@ export class ProduitsComponent implements OnInit {
   
 
   produitForm: Produit = {
-    codeBarre: '',
+
     nomProduit: '',
     description: '',
     prixAchat: 0.00,
@@ -59,6 +59,7 @@ export class ProduitsComponent implements OnInit {
     categorie: { id: 0, name: '' },
     fournisseur: { id: 0, nomFournisseur: '' },
     facteurConversion:1,
+    marque:'',
   };
 
   constructor(
@@ -90,15 +91,18 @@ export class ProduitsComponent implements OnInit {
 
   chargerFournisseurs() {
     this.fournisseurService.getFournisseurs().subscribe(
-      (data) => (this.fournisseurs = data),
+      (data) => {
+        this.fournisseurs = data;
+        console.log('Fournisseurs chargés:', this.fournisseurs);  // Vérifier que les données sont chargées
+      },
       (error) => console.error('Erreur lors du chargement des fournisseurs', error)
     );
   }
+  
 
   // Ouvrir le formulaire d'ajout/modification
   ouvrirFormulaire() {
     this.produitForm = {
-      codeBarre: '',
       nomProduit: '',
       description: '',
       prixAchat: 0.00,
@@ -108,14 +112,14 @@ export class ProduitsComponent implements OnInit {
       tauxTva: 0,
       categorie: { id: 0, name: '' },
       fournisseur: { id: 0, nomFournisseur: '' },
-      facteurConversion:1,
+      facteurConversion: 1,
+      marque: '',
     };
     this.afficherFormulaire = true;
     this.modeEdition = false;
-    setTimeout(() => {
-      this.codeBarreInput.nativeElement.focus(); // Focus sur le champ code-barres
-    }, 0);
+    
   }
+  
 
   modifierProduit(produit: Produit) {
     this.produitForm = { ...produit };
@@ -137,7 +141,22 @@ export class ProduitsComponent implements OnInit {
       });
     }
   }
-
+  mettreAJourMarque() {
+    // Convertir l'ID en nombre avant de faire la recherche
+    const fournisseurId = +this.produitForm.fournisseur.id;  // Force la conversion en nombre
+    console.log('ID du fournisseur sélectionné:', fournisseurId);  // Vérifier l'ID converti
+    
+    const fournisseur = this.fournisseurs.find(f => f.id === fournisseurId);
+    console.log('Fournisseur trouvé:', fournisseur);  // Affiche le fournisseur trouvé
+    
+    if (fournisseur) {
+      this.produitForm.marque = fournisseur.nomFournisseur;
+    } else {
+      this.produitForm.marque = ''; // Si aucun fournisseur trouvé
+    }
+  }
+  
+  
   supprimerProduit(id: number | undefined) {
     if (id !== undefined) {
       this.produitService.supprimerProduit(id).subscribe(() => this.chargerProduits());
@@ -194,62 +213,4 @@ export class ProduitsComponent implements OnInit {
   }
   
 
-  // Gestion du scan de code-barres
-  @HostListener('document:keydown', ['$event'])
-  onKeyDown(event: KeyboardEvent) {
-    const now = Date.now();
-    const timeDiff = now - this.lastScanTime;
-    
-    if (timeDiff > 1000) {
-      this.scannedBarcode = ''; // Réinitialise si l'écart entre les touches est trop long
-    }
-  
-    if (event.key === 'Enter') {
-      if (this.scannedBarcode.length > 5) { // Code-barres valide (min 6 caractères)
-        this.onScan();
-      }
-      this.scannedBarcode = ''; // Réinitialisation après scan
-    } else {
-      this.scannedBarcode += event.key;
-    }
-  
-    this.lastScanTime = now;
-  }
-  
-  onCodeBarreSaisi(event: Event) {
-    const keyboardEvent = event as KeyboardEvent; // Caster l'événement en KeyboardEvent
-    keyboardEvent.preventDefault(); // Empêche le comportement par défaut de "Enter"
-  
-    const codeBarre = this.produitForm.codeBarre;
-    if (codeBarre) {
-      this.searchProductByBarcode(codeBarre);
-    }
-  }
-  onScan() {
-    const barcode = this.scannedBarcode.trim();
-    if (barcode && (barcode !== this.lastScannedBarcode || Date.now() - this.lastScanTime > 500)) {
-      this.lastScannedBarcode = barcode;
-      this.lastScanTime = Date.now();
-
-      console.log("Code-barres scanné :", barcode);
-      this.searchProductByBarcode(barcode);
-    }
-  }
-
-  searchProductByBarcode(barcode: string) {
-    this.produitService.getProductByBarcode(barcode).subscribe(
-      (product) => {
-        console.log("Produit trouvé :", product);
-        this.produitForm = { ...product };
-        this.afficherFormulaire = true;
-        this.modeEdition = true;
-      },
-      (error) => {
-        console.error("Produit non trouvé !");
-        this.produitForm.codeBarre = barcode;
-        this.afficherFormulaire = true;
-        this.modeEdition = false;
-      }
-    );
-  }
 }

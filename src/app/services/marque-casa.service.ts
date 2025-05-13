@@ -1,6 +1,7 @@
 import { HttpClient, HttpHeaders } from '@angular/common/http';
 import { Injectable } from '@angular/core';
 import { Observable } from 'rxjs';
+import { CartonSummaryDTO } from '../pages/marquecasa/marquecasa.component';
 
 @Injectable({
   providedIn: 'root'
@@ -32,4 +33,9 @@ export class MarqueCasaService {
     getAllLivraisons(clientId: number): Observable<any[]> {
       return this.http.get<any[]>(`${this.baseUrl}/details-livraison/client/${clientId}`, { headers: this.getHeaders() });
     }
+   getTotalCartonsPerProductPerClient() {
+  return this.http.get<CartonSummaryDTO[]>(`${this.baseUrl}/cartons-par-client-produit`, { headers: this.getHeaders() });
+}
+
+
 }

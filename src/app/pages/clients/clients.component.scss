@@ -201,7 +201,7 @@ label {
 
     button {
       @include button-style($secondary-color, $light-color);
-      padding: $padding / 2;
+      padding: math.div($padding, 2);
     }
   }
 

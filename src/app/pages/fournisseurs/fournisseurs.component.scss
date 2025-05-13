@@ -1,4 +1,5 @@
 // Variables
+@use 'sass:math';
 $primary-color: #007bff;
 $secondary-color: #6c757d;
 $success-color: #28a745;
@@ -167,7 +168,7 @@ table {
 
     button {
       @include button-style($secondary-color, $light-color);
-      padding: $padding / 2;
+      padding: math.div($padding, 2);
     }
   }
 }

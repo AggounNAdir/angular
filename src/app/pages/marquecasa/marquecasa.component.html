@@ -16,21 +16,48 @@
 
 </div>
 
+<!-- Conteneur flex -->
+<div style="display: flex; gap: 40px; align-items: flex-start; margin-top: 20px;">
 
-<!-- Liste des enregistrements -->
-<h3>Liste des Marques Casa</h3>
-<table>
-  <tr>
-    <th>Produit</th><th>Unité</th>
-    <th>Prix Vente</th><th>Quantité</th><th>TVA</th><th>Montant HT</th><th>Montant TTC</th>
-  </tr>
-  <tr *ngFor="let m of allLivraisons">
-    <td>{{ m.produit.nomProduit }}</td>
-    <td>{{ m.produit.facteurConversion }}</td>
-    <td>{{ m.prixUnitaire }}</td>
-    <td>{{ m.quantite }}</td>
-    <td>{{ m.tva }}</td>
-    <td>{{ m.montantHt }}</td>
-    <td>{{ m.montantTtc }}</td>
-  </tr>
-</table>
+  <!-- Table des livraisons -->
+  <div>
+    <h3>Liste des Marques Casa</h3>
+    <table border="1" cellpadding="5">
+      <tr>
+        <th>Produit</th>
+        <th>Unité</th>
+        <th>Prix Vente</th>
+        <th>Quantité</th>
+        <th>TVA</th>
+        <th>Montant HT</th>
+        <th>Montant TTC</th>
+      </tr>
+      <tr *ngFor="let m of allLivraisons">
+        <td>{{ m.produit.nomProduit }}</td>
+        <td>{{ m.produit.facteurConversion }}</td>
+        <td>{{ m.prixUnitaire }}</td>
+        <td>{{ m.quantite }}</td>
+        <td>{{ m.tva }}</td>
+        <td>{{ m.montantHt }}</td>
+        <td>{{ m.montantTtc }}</td>
+      </tr>
+    </table>
+  </div>
+
+  <!-- Table des quantités de cartons -->
+  <div>
+    <h3>Total des Cartons par Produit</h3>
+    <table border="1" cellpadding="5">
+      <tr>
+        <th>Produit</th>
+        <th>Quantité Totale de Cartons</th>
+      </tr>
+      <tr *ngFor="let item of filteredCartons">
+        <td>{{ item.produit }}</td>
+        <td>{{ item.totalCartons }}</td>
+      </tr>
+    </table>
+  </div>
+
+</div>
+

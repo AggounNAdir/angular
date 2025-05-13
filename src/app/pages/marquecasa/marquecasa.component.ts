@@ -5,6 +5,12 @@ import { MarqueCasaService } from '../../services/marque-casa.service';
 import { ProduitService } from '../../services/produit.service';
 import { ClientService } from '../../services/client.service';
 
+export interface CartonSummaryDTO {
+  clientId: number;
+  produit: string;
+  totalCartons: number;
+}
+
 @Component({
   selector: 'app-marquecasa',
   standalone: true,
@@ -20,6 +26,8 @@ export class MarquecasaComponent implements OnInit {
   selectedClientId: number | null = null;
   allLivraisons: any[] = [];
   totalTtc:number =0.00;
+  cartonSummaries: CartonSummaryDTO[] = [];
+filteredCartons: CartonSummaryDTO[] = [];
   newCasa = {
     clientId: 1,
     produit: null, // <- ici
@@ -36,6 +44,10 @@ export class MarquecasaComponent implements OnInit {
     this.chargerProduits();
     this.chargerClients();
     this.loadAllLivraisons();
+    this.marqueService.getTotalCartonsPerProductPerClient().subscribe(data => {
+    this.cartonSummaries = data;
+    this.onClientChange(); // applique filtre initial si client déjà sélectionné
+  });
   }
   calculerTotalMontant(): number {
     return this.marquesCasa.reduce((total, item) => total + (item.montant || 0), 0);
@@ -47,6 +59,7 @@ export class MarquecasaComponent implements OnInit {
     this.loadAllLivraisons();
     this.totalTtc = this.calculerTotalTTC();
     console.log(this.totalTtc);
+    this.filteredCartons = this.cartonSummaries.filter(c => c.clientId === +this.selectedClientId!);
   
   }
   
